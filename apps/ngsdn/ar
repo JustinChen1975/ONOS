@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+make a
+make rr
+make start0
+make bun0 
+

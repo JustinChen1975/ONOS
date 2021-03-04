@@ -1,0 +1,82 @@
+stratum_bmv2 -device_id=1 -chassis_config_file=/tmp/r2/chassis-config.txt -forwarding_pipeline_configs_file=/tmp/r2/pipe.txt -persistent_config_dir=/tmp/r2 -initial_pipeline=/root/dummy.json -cpu_port=255 -external_stratum_urls=0.0.0.0:50002 -local_stratum_url=localhost:48139 -max_num_controllers_per_node=10 -write_req_log_file=/tmp/r2/write-reqs.txt -logtosyslog=false -logtostderr=true -bmv2_log_level=info
+
+--------------------------------------------------------------------------------
+
+E0302 15:10:54.014333   172 main.cc:121] Starting bmv2 simple_switch and waiting for P4 pipeline
+W0302 15:10:54.018159   172 credentials_manager.cc:45] Using insecure server credentials
+I0302 15:10:54.018472   172 timer_daemon.cc:90] The timer daemon has been started.
+I0302 15:10:54.018543   172 hal.cc:128] Setting up HAL in COLDBOOT mode...
+I0302 15:10:54.018631   172 config_monitoring_service.cc:90] Pushing the saved chassis config read from /tmp/r2/chassis-config.txt...
+I0302 15:10:54.025425   172 bmv2_chassis_manager.cc:476] Registered port status callbacks successfully for node 1.
+I0302 15:10:54.025467   172 bmv2_chassis_manager.cc:61] Adding port 1 to node 1
+I0302 15:10:54.095997   172 bmv2_chassis_manager.cc:61] Adding port 2 to node 1
+I0302 15:10:54.167950   172 bmv2_chassis_manager.cc:61] Adding port 3 to node 1
+I0302 15:10:54.232343   215 bmv2_chassis_manager.cc:409] State of port 1 in node 1: UP.
+I0302 15:10:54.232537   215 bmv2_chassis_manager.cc:409] State of port 2 in node 1: UP.
+I0302 15:10:54.232574   215 bmv2_chassis_manager.cc:409] State of port 3 in node 1: UP.
+I0302 15:10:54.242360   172 p4_service.cc:119] Pushing the saved forwarding pipeline configs read from /tmp/r2/pipe.txt...
+E0302 15:10:54.242447   172 utils.cc:109] StratumErrorSpace::ERR_FILE_NOT_FOUND: /tmp/r2/pipe.txt not found.
+E0302 15:10:54.243000   172 utils.cc:65] Return Error: ReadFileToString(filename, &text) failed with StratumErrorSpace::ERR_FILE_NOT_FOUND: /tmp/r2/pipe.txt not found.
+W0302 15:10:54.243027   172 p4_service.cc:128] No saved forwarding pipeline config found at /tmp/r2/pipe.txt. This is normal when the switch is just installed and no master controller is connected yet.
+E0302 15:10:54.244962940     172 server_chttp2.cc:40]        {"created":"@1614697854.244882982","description":"Only 1 addresses added out of total 2 resolved","file":"external/com_github_grpc_grpc/src/core/ext/transport/chttp2/server/chttp2_server.cc","file_line":406,"referenced_errors":[{"created":"@1614697854.244876253","description":"Address family not supported by protocol","errno":97,"file":"external/com_github_grpc_grpc/src/core/lib/iomgr/socket_utils_common_posix.cc","file_line":420,"os_error":"Address family not supported by protocol","syscall":"socket","target_address":"[::1]:48139"}]}
+E0302 15:10:54.245329   172 hal.cc:223] Stratum external facing services are listening to 0.0.0.0:50002, localhost:48139...
+I0302 15:11:16.097630   282 p4_service.cc:696] Controller (connection_id: 1, election_id: 60, uri: ipv4:172.17.0.1:34952) is connected as MASTER for node (aka device) with ID 1.
+I0302 15:11:16.214274   347 bmv2_switch.cc:74] P4-based forwarding pipeline config pushed successfully to node with ID 1.
+E0302 15:11:16.245290   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.245479   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.247382   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.247532   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.247834   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.248874   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.249037   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.250910   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.251056   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.251376   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.252416   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.252584   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.254438   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.254580   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0302 15:11:16.254886   349 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+I0302 15:11:16.264562   349 config_monitoring_service.cc:377] Initial Subscribe request from ipv4:172.17.0.1:34956 over stream 0x7f1cd4bef510.
+I0302 15:11:16.267483   282 p4_service.cc:696] Controller (connection_id: 1, election_id: 60, uri: ipv4:172.17.0.1:34952) is connected as MASTER for node (aka device) with ID 1.
+[15:11:16.290] [bmv2] [E] [thread 359] Error when trying to add entry to table 'IngressPipeImpl.v6routing_table'
+[15:11:16.290] [bmv2] [E] [thread 359] [P4Runtime] Error when adding match entry to target
+E0302 15:11:16.290573   359 p4_service.cc:270] Failed to write forwarding entries to node 1: 
+[15:11:16.293] [bmv2] [E] [thread 357] Error when trying to add entry to table 'IngressPipeImpl.v6routing_table'
+[15:11:16.293] [bmv2] [E] [thread 357] [P4Runtime] Error when adding match entry to target
+E0302 15:11:16.293995   357 p4_service.cc:270] Failed to write forwarding entries to node 1: 
+[15:11:17.323] [bmv2] [E] [thread 359] Error when trying to add entry to table 'IngressPipeImpl.v6routing_table'
+[15:11:17.323] [bmv2] [E] [thread 359] [P4Runtime] Error when adding match entry to target
+E0302 15:11:17.323437   359 p4_service.cc:270] Failed to write forwarding entries to node 1: 
+[15:11:17.326] [bmv2] [E] [thread 357] Error when trying to add entry to table 'IngressPipeImpl.v6routing_table'
+[15:11:17.327] [bmv2] [E] [thread 357] [P4Runtime] Error when adding match entry to target
+E0302 15:11:17.327124   357 p4_service.cc:270] Failed to write forwarding entries to node 1: 
+[15:11:21.324] [bmv2] [E] [thread 359] Error when trying to add entry to table 'IngressPipeImpl.v6routing_table'
+[15:11:21.324] [bmv2] [E] [thread 359] [P4Runtime] Error when adding match entry to target
+E0302 15:11:21.324661   359 p4_service.cc:270] Failed to write forwarding entries to node 1: 
+[15:11:21.329] [bmv2] [E] [thread 359] Error when trying to add entry to table 'IngressPipeImpl.v6routing_table'
+[15:11:21.329] [bmv2] [E] [thread 359] [P4Runtime] Error when adding match entry to target
+E0302 15:11:21.329403   359 p4_service.cc:270] Failed to write forwarding entries to node 1: 
+open: No such file or directory
+I0304 03:25:00.189122   215 bmv2_chassis_manager.cc:409] State of port 3 in node 1: DOWN.
+[03:25:00.189] [bmv2] [I] [thread 210] [P4Runtime] WatchPortEnforcer 285265544: port status hasn't changed, ignoring notification
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+[03:25:00.589] [bmv2] [I] [thread 210] [P4Runtime] WatchPortEnforcer 285265544: port status hasn't changed, ignoring notification
+I0304 03:25:00.589640   215 bmv2_chassis_manager.cc:409] State of port 1 in node 1: DOWN.
+[03:25:00.589] [bmv2] [I] [thread 210] [P4Runtime] WatchPortEnforcer 285265544: port status hasn't changed, ignoring notification
+I0304 03:25:00.589716   215 bmv2_chassis_manager.cc:409] State of port 2 in node 1: DOWN.
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+I0304 03:25:01.064307   172 hal.cc:244] Received signal: Terminated
+I0304 03:25:01.066332   282 p4_service.cc:723] Controller (connection_id: 1, election_id: 60, uri: ipv4:172.17.0.1:34952) which was MASTER for node (aka device) with ID 1 is disconnected. The node is now orphan :(
+I0304 03:25:01.066429   349 config_monitoring_service.cc:569] Subscribe stream 0x7f1cd4bef510 from ipv4:172.17.0.1:34956 has been closed.
+I0304 03:25:01.066869   172 hal.cc:165] Shutting down HAL...
+I0304 03:25:01.068054   172 timer_daemon.cc:108] The timer daemon has been stopped.
+I0304 03:25:01.068096   172 main.cc:171] See you later!

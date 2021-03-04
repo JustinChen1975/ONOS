@@ -138,6 +138,7 @@ public final class IntIntent {
     private final Set<IntReportType> reportTypes;
     // telemetry mode
     private final TelemetryMode telemetryMode;
+//    private  IntConfig intConfig;
 
     /**
      * Creates an IntIntent.

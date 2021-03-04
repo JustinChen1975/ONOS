@@ -37,6 +37,7 @@ DEBUG_FLAGS=${DEBUG_FLAGS:-true}
 LAST_STEP=${1:-all}
 # PI and BMv2 must be configured differently if we want to use Stratum
 USE_STRATUM=${USE_STRATUM:-false}
+# USE_STRATUM=${USE_STRATUM:-true}
 # Improve time for one-time builds
 FAST_BUILD=${FAST_BUILD:-false}
 # Remove build artifacts

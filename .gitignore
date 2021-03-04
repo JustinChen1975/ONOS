@@ -2,6 +2,7 @@
 *.class
 .classpath
 .project
+.svn
 .ijwb
 .pydevproject
 .settings

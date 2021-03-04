@@ -43,15 +43,18 @@ control ingress (
         port_counters_ingress.apply(hdr, standard_metadata);
         packetio_ingress.apply(hdr, standard_metadata);
         table0_control.apply(hdr, local_metadata, standard_metadata);
+        //cxc: indicate which port is source/sink , and label the packet from/to as sourc/sink.
         process_int_source_sink.apply(hdr, local_metadata, standard_metadata);
 
         if (local_metadata.int_meta.source == _TRUE) {
+            //cxc: insert shim header and INT header
             process_int_source.apply(hdr, local_metadata, standard_metadata);
         }
 
         if (local_metadata.int_meta.sink == _TRUE && hdr.int_header.isValid()) {
             // clone packet for Telemetry Report
             // FIXME: this works only on BMv2
+            //cxc: Which packet , original packet or cloned packet will be used for telemetry Report ?
             #ifdef TARGET_BMV2
             clone3(CloneType.I2E, REPORT_MIRROR_SESSION_ID, standard_metadata);
             #endif // TARGET_BMV2
@@ -66,6 +69,7 @@ control egress (
 
     apply {
         if(hdr.int_header.isValid()) {
+            //cxc:  set int header ? but why not to embed those informations into intmeta ?
             process_int_transit.apply(hdr, local_metadata, standard_metadata);
 
             #ifdef TARGET_BMV2

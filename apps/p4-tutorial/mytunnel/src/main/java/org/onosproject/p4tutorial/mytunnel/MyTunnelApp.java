@@ -115,6 +115,7 @@ public class MyTunnelApp {
         log.info("STOPPED");
     }
 
+
     /**
      * Provisions a tunnel between the given source and destination host with
      * the given tunnel ID. The tunnel is established using a randomly picked
@@ -257,7 +258,12 @@ public class MyTunnelApp {
              *
              * Hint: the code will be similar to the case when isEgress is true.
              */
-            action = null; // Replace null with your solution.
+            PiActionId egressActionId = PiActionId.of("c_ingress.set_out_port");
+            action = PiAction.builder()
+                    .withId(egressActionId)
+                    .withParameter(portParam)
+                    .build();
+            //action = null; // Replace null with your solution.
         }
 
         log.info("Inserting {} rule on switch {}: table={}, match={}, action={}",

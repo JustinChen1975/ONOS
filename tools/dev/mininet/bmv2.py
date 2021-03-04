@@ -130,6 +130,8 @@ class ONOSBmv2Switch(Switch):
     # be running.
     mininet_exception = multiprocessing.Value('i', 0)
 
+    # nextGrpcPort = 50001
+
     def __init__(self, name, json=None, debugger=False, loglevel="warn",
                  elogger=False, grpcport=None, cpuport=255, notifications=False,
                  thriftport=None, netcfg=True, dryrun=False,
@@ -138,6 +140,8 @@ class ONOSBmv2Switch(Switch):
                  **kwargs):
         Switch.__init__(self, name, **kwargs)
         self.grpcPort = grpcport
+        # self.grpcPort = ONOSBmv2Switch.nextGrpcPort
+        # ONOSBmv2Switch.nextGrpcPort += 1
         self.grpcPortInternal = None  # Needed for Stratum (local_hercules_url)
         self.thriftPort = thriftport
         self.cpuPort = cpuport
@@ -177,7 +181,7 @@ class ONOSBmv2Switch(Switch):
 
         # Remove files from previous executions
         self.cleanupTmpFiles()
-
+        
     def getSourceIp(self, dstIP):
         """
         Queries the Linux routing table to get the source IP that can talk with

@@ -62,6 +62,7 @@ public final class PortStatisticsDiscoveryImpl extends AbstractHandlerBehaviour 
         DeviceService deviceService = this.handler().get(DeviceService.class);
         DeviceId deviceId = this.data().deviceId();
 
+
         // Get a client for this device.
         P4RuntimeController controller = handler().get(P4RuntimeController.class);
         P4RuntimeClient client = controller.get(deviceId);

@@ -16,6 +16,7 @@
 package org.onosproject.pipelines.basic;
 
 import com.google.common.collect.Sets;
+import org.onosproject.inbandtelemetry.api.IntProgrammable;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.onlab.util.ImmutableByteSequence;
@@ -24,7 +25,6 @@ import org.onosproject.core.CoreService;
 import org.onosproject.inbandtelemetry.api.IntConfig;
 import org.onosproject.inbandtelemetry.api.IntIntent;
 import org.onosproject.inbandtelemetry.api.IntObjective;
-import org.onosproject.inbandtelemetry.api.IntProgrammable;
 import org.onosproject.net.DeviceId;
 import org.onosproject.net.PortNumber;
 import org.onosproject.net.driver.AbstractHandlerBehaviour;

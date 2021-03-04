@@ -16,6 +16,7 @@
 
 package org.onosproject.p4tutorial.pipeconf;
 
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -35,16 +36,13 @@ import org.onosproject.net.flow.instructions.Instructions.OutputInstruction;
 import org.onosproject.net.packet.DefaultInboundPacket;
 import org.onosproject.net.packet.InboundPacket;
 import org.onosproject.net.packet.OutboundPacket;
-import org.onosproject.net.pi.model.PiActionId;
-import org.onosproject.net.pi.model.PiActionParamId;
-import org.onosproject.net.pi.model.PiMatchFieldId;
-import org.onosproject.net.pi.model.PiPacketMetadataId;
-import org.onosproject.net.pi.model.PiPipelineInterpreter;
-import org.onosproject.net.pi.model.PiTableId;
+import org.onosproject.net.pi.model.*;
 import org.onosproject.net.pi.runtime.PiAction;
 import org.onosproject.net.pi.runtime.PiActionParam;
 import org.onosproject.net.pi.runtime.PiPacketMetadata;
 import org.onosproject.net.pi.runtime.PiPacketOperation;
+//import org.onosproject.p4tutorial.mytunnel.MyTunnelApp;
+import org.slf4j.Logger;
 
 import java.nio.ByteBuffer;
 import java.util.Collection;
@@ -58,6 +56,8 @@ import static org.onosproject.net.PortNumber.CONTROLLER;
 import static org.onosproject.net.PortNumber.FLOOD;
 import static org.onosproject.net.flow.instructions.Instruction.Type.OUTPUT;
 import static org.onosproject.net.pi.model.PiPacketOperationType.PACKET_OUT;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Implementation of a pipeline interpreter for the mytunnel.p4 program.
@@ -111,6 +111,8 @@ public final class PipelineInterpreterImpl
                     .put(Criterion.Type.ETH_TYPE, ETH_TYPE_ID)
                     .build();
 
+    private static final Logger log = getLogger(PipelineInterpreterImpl.class);
+
     @Override
     public Optional<PiMatchFieldId> mapCriterionType(Criterion.Type type) {
         return Optional.ofNullable(CRITERION_MAP.get(type));
@@ -150,12 +152,14 @@ public final class PipelineInterpreterImpl
         OutputInstruction outInstruction = (OutputInstruction) instruction;
         PortNumber port = outInstruction.port();
         if (!port.isLogical()) {
+            log.info("From p4-tutorial.pipeconf Maptreatment, {} param: {}",ACT_ID_SET_EGRESS_PORT,port);
             return PiAction.builder()
                     .withId(ACT_ID_SET_EGRESS_PORT)
                     .withParameter(new PiActionParam(
                             ACT_PARAM_ID_PORT, copyFrom(port.toLong())))
                     .build();
         } else if (port.equals(CONTROLLER)) {
+            log.info("From p4-tutorial.pipeconf  Maptreatment, send to cpu {} ",ACT_ID_SEND_TO_CPU);
             return PiAction.builder()
                     .withId(ACT_ID_SEND_TO_CPU)
                     .build();
@@ -189,6 +193,7 @@ public final class PipelineInterpreterImpl
             // operation for each switch port.
             DeviceService deviceService = handler().get(DeviceService.class);
             DeviceId deviceId = packet.sendThrough();
+            //log.info("From p4-tutorial.pipeconf -- FLOOD");
             for (Port p : deviceService.getPorts(deviceId)) {
                 piPacketOps.add(createPiPacketOp(packet.data(), p.number().toLong()));
             }
@@ -223,6 +228,7 @@ public final class PipelineInterpreterImpl
             short s = packetMetadata.get().value().asReadOnlyBuffer().getShort();
             ConnectPoint receivedFrom = new ConnectPoint(
                     deviceId, PortNumber.portNumber(s));
+            //log.info("From p4-tutorial.pipeconf -- Packet In",ethPkt.getEtherType());
             return new DefaultInboundPacket(
                     receivedFrom, ethPkt, packetIn.data().asReadOnlyBuffer());
         } else {

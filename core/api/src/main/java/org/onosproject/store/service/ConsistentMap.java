@@ -138,7 +138,6 @@ public interface ConsistentMap<K, V> extends DistributedPrimitive, Iterable<Map.
      * If the value for the specified key satisfies a condition, attempts to compute a new
      * mapping given the key and its current mapped value.
      * If the computed value is null, the current mapping will be removed from the map.
-     *
      * @param key key with which the specified value is to be associated
      * @param condition condition that should evaluate to true for the computation to proceed
      * @param remappingFunction the function to compute a value

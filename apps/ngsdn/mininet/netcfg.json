@@ -1,0 +1,194 @@
+{
+  "devices": {
+    "device:r1": {
+      "basic": {
+        "managementAddress": "grpc://mininet:50001?device_id=1",
+        "driver": "stratum-bmv2",
+        "pipeconf": "com.cxc.ngsdn",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 600
+      },
+      "fabricDeviceConfig": {
+        "myStationMac": "00:aa:00:00:00:01",
+        "mySid": "3:101:1::",
+        "isSpine": false
+      }
+    },
+    "device:r2": {
+      "basic": {
+        "managementAddress": "grpc://mininet:50002?device_id=1",
+        "driver": "stratum-bmv2",
+        "pipeconf": "com.cxc.ngsdn",
+        "locType": "grid",
+        "gridX": 200,
+        "gridY": 400
+      },
+      "fabricDeviceConfig": {
+        "myStationMac": "00:bb:00:00:00:02",
+        "mySid": "3:202:2::",
+        "isSpine": false
+      }
+    },
+    "device:r3": {
+      "basic": {
+        "managementAddress": "grpc://mininet:50003?device_id=1",
+        "driver": "stratum-bmv2",
+        "pipeconf": "com.cxc.ngsdn",
+        "locType": "grid",
+        "gridX": 400,
+        "gridY": 600
+      },
+      "fabricDeviceConfig": {
+        "myStationMac": "00:cc:00:00:00:03",
+        "mySid": "3:303:3::",
+        "isSpine": true
+      }
+    },
+    "device:r4": {
+      "basic": {
+        "managementAddress": "grpc://mininet:50004?device_id=1",
+        "driver": "stratum-bmv2",
+        "pipeconf": "com.cxc.ngsdn",
+        "locType": "grid",
+        "gridX": 400,
+        "gridY": 400
+      },
+      "fabricDeviceConfig": {
+        "myStationMac": "00:dd:00:00:00:04",
+        "mySid": "3:404:4::",
+        "isSpine": true
+      }
+    },
+    "device:r5": {
+      "basic": {
+        "managementAddress": "grpc://mininet:50005?device_id=1",
+        "driver": "stratum-bmv2",
+        "pipeconf": "com.cxc.ngsdn",
+        "locType": "grid",
+        "gridX": 600,
+        "gridY": 600
+      },
+      "fabricDeviceConfig": {
+        "myStationMac": "00:ee:00:00:00:05",
+        "mySid": "3:505:5::",
+        "isSpine": true
+      }
+    },
+    "device:r6": {
+      "basic": {
+        "managementAddress": "grpc://mininet:50006?device_id=1",
+        "driver": "stratum-bmv2",
+        "pipeconf": "com.cxc.ngsdn",
+        "locType": "grid",
+        "gridX": 600,
+        "gridY": 400
+      },
+      "fabricDeviceConfig": {
+        "myStationMac": "00:ff:00:00:00:06",
+        "mySid": "3:606:6::",
+        "isSpine": true
+      }
+    }
+  },
+  "ports": {
+    "device:r1/4": {
+      "interfaces": [
+        {
+          "name": "r1-4",
+          "ips": ["2001:1:1::ff/64"]
+        }
+      ]
+    },
+    "device:r2/3": {
+      "interfaces": [
+        {
+          "name": "r2-3",
+          "ips": ["2001:2:1::ff/64"]
+        }
+      ]
+    },
+    "device:r3/4": {
+      "interfaces": [
+        {
+          "name": "r3-4",
+          "ips": ["2001:3:1::ff/64"]
+        }
+      ]
+    },
+    "device:r4/6": {
+      "interfaces": [
+        {
+          "name": "r4-6",
+          "ips": ["2001:4:1::ff/64"]
+        }
+      ]
+    },
+    "device:r5/4": {
+      "interfaces": [
+        {
+          "name": "r5-4",
+          "ips": ["2001:5:1::ff/64"]
+        }
+      ]
+    },
+    "device:r6/3": {
+      "interfaces": [
+        {
+          "name": "r6-3",
+          "ips": ["2001:6:1::ff/64"]
+        }
+      ]
+    }
+  },
+  "hosts": {
+    "00:00:00:00:00:1A/None": {
+      "basic": {
+        "name": "h1",
+        "locType": "grid",
+        "gridX": 100,
+        "gridY": 800
+      }
+    },
+    "00:00:00:00:00:2B/None": {
+      "basic": {
+        "name": "h2",
+        "locType": "grid",
+        "gridX": 100,
+        "gridY": 200
+      }
+    },
+    "00:00:00:00:00:3C/None": {
+      "basic": {
+        "name": "h3",
+        "locType": "grid",
+        "gridX": 400,
+        "gridY": 800
+      }
+    },
+    "00:00:00:00:00:4D/None": {
+      "basic": {
+        "name": "h4",
+        "locType": "grid",
+        "gridX": 400,
+        "gridY": 200
+      }
+    },
+    "00:00:00:00:00:5E/None": {
+      "basic": {
+        "name": "h5",
+        "locType": "grid",
+        "gridX": 700,
+        "gridY": 800
+      }
+    },
+    "00:00:00:00:00:6F/None": {
+      "basic": {
+        "name": "h6",
+        "locType": "grid",
+        "gridX": 700,
+        "gridY": 200
+      }
+    }
+  }
+}

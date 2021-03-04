@@ -1,0 +1,5 @@
+Log file created at: 2020/12/28 04:54:18
+Running on machine: mininet
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+E1228 04:54:18.137514   428 main.cc:121] Starting bmv2 simple_switch and waiting for P4 pipeline
+E1228 04:54:18.138281   428 main.cc:125] StratumErrorSpace::ERR_INVALID_PARAM: 'status == 0' is false. Error when starting bmv2 simple_switch, status: 1

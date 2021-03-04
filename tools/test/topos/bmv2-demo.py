@@ -37,7 +37,7 @@ from time import sleep
 from subprocess import call
 
 from mininet.cli import CLI
-from mininet.link import TCLink
+from mininet.link import TCLink,Intf
 from mininet.log import setLogLevel
 from mininet.net import Mininet
 from mininet.node import RemoteController, Host
@@ -58,11 +58,13 @@ class ClosTopo(Topo):
         bmv2SwitchIds = []
         for row in (1, 2):
             for col in range(1, args.size + 1):
+            # for col in range(1, args. args.size + 1):
                 bmv2SwitchIds.append("s%d%d" % (row, col))
 
         bmv2Switches = {}
 
         for switchId in bmv2SwitchIds:
+            # cxc: ignor s
             deviceId = int(switchId[1:])
             # Use first number in device id to calculate latitude (row number),
             # use second to calculate longitude (column number)
@@ -95,6 +97,7 @@ class ClosTopo(Topo):
                                  bmv2Switches["s2%d" % j],
                                  cls=TCLink, bw=DEFAULT_SW_BW)
 
+        # cxc: only the low layer switch(not spine, but leaf) has hosts.
         for hostId in range(1, args.size + 1):
             host = self.addHost("h%d" % hostId,
                                 cls=DemoHost,
@@ -156,6 +159,7 @@ def generateNetcfg(onosIp, net, args):
     if args.full_netcfg:
         # Device configs
         for sw in net.switches:
+            # get linux host ip which can talk with onosIP.
             srcIp = sw.getSourceIp(onosIp)
             netcfg['devices'][sw.onosDeviceId] = sw.getDeviceConfig(srcIp)
 
@@ -265,12 +269,14 @@ def main(args):
     net = Mininet(topo=topo, build=False, controller=[controller])
 
     net.build()
+    # net.nameToNode()
     net.start()
 
     print "Network started"
 
     # Always generate background pings.
     sleep(3)
+    # cxc: every pairs of hosts will ping each other.
     for (h1, h2) in combinations(net.hosts, 2):
         h1.startPingBg(h2)
         h2.startPingBg(h1)

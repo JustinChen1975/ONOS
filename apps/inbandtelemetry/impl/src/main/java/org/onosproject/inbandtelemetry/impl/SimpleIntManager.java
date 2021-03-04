@@ -217,7 +217,8 @@ public class SimpleIntManager implements IntService {
         deviceService.getDevices().forEach(d -> cleanupDevice(d.id()));
         log.info("Deactivated");
     }
-
+    
+    // 这里的intStarted变量是全局性的。代表的整个INT是否启动了没有。并不是针对具体设备的。
     @Override
     public void startInt() {
         // Atomic value event will trigger device configure.
@@ -232,6 +233,8 @@ public class SimpleIntManager implements IntService {
     @Override
     public void stopInt() {
         // Atomic value event will trigger device configure.
+        // 虽然也触发了设备配置，但感觉什么都没有做。应该要执行intProg.cleanup().
+        // 当然，设置了intStarted flase以后，监听到新主机，新设备后不会再动设备的配置。
         intStarted.set(false);
     }
 
@@ -259,6 +262,7 @@ public class SimpleIntManager implements IntService {
         final IntIntentId intIntentId = IntIntentId.valueOf(intentId);
         // Intent map event will trigger device configure.
         intentMap.put(intIntentId, intent);
+        // 这里的intent里的内容会被转到intObjective里面，然后使用intProg.addObjective.
         return intIntentId;
     }
 
@@ -266,6 +270,7 @@ public class SimpleIntManager implements IntService {
     public void removeIntIntent(IntIntentId intentId) {
         checkNotNull(intentId);
         // Intent map event will trigger device configure.
+        // 好像也没有真正从设备上删除intIntent？？
         intentMap.remove(intentId).value();
     }
 
@@ -310,6 +315,7 @@ public class SimpleIntManager implements IntService {
     private void configDeviceTask(DeviceId deviceId, long creationTime) {
         if (isConfigTaskValid(deviceId, creationTime)) {
             // Task outdated.
+            // 为什么Valid反而被认为是过期了呢？
             return;
         }
         if (!deviceService.isAvailable(deviceId)) {
@@ -345,16 +351,23 @@ public class SimpleIntManager implements IntService {
     private boolean configDevice(DeviceId deviceId) {
         // Returns true if config was successful, false if not and a clean up is
         // needed.
+        // 如果配置失败，那么才需要cleanupDevice。
+        // 如果没法开始配置，比如设备不支持INT，那么这个时候就要返回true。否则返回false的话，会触发cleanupDevice.
+        // 其实应该考虑分为三种状态：配置失败；配置成功；没法开始进行配置。现在是后面2种处于同一个状态下。
         final Device device = deviceService.getDevice(deviceId);
         if (device == null || !device.is(IntProgrammable.class)) {
             return true;
         }
+
 
         if (isNotIntConfigured()) {
             log.warn("Missing INT config, aborting programming of INT device {}", deviceId);
             return true;
         }
 
+        // 这个判断方法不是太好。太粗糙了，只是简单地把有主机的设备看成是边缘设备，就同时授予 sourc和sink的角色，而其他的所有设备就全部授予为SINK设备。
+        // 中间的设备也应该可以授予source和SINK的角色。
+        // 要把source, sink, transit完全分开，而且是相对自由的设定。
         final boolean isEdge = !hostService.getConnectedHosts(deviceId).isEmpty();
         final IntDeviceRole intDeviceRole = isEdge
                 ? IntDeviceRole.SOURCE_SINK
@@ -380,6 +393,7 @@ public class SimpleIntManager implements IntService {
             return true;
         }
 
+        // 如果是sink设备，就下发生成telemetry report的相关配置。
         if (intProg.supportsFunctionality(IntProgrammable.IntFunctionality.SINK)) {
             if (!intProg.setupIntConfig(intConfig.get())) {
                 log.warn("Unable to apply INT report config on {}", deviceId);
@@ -388,6 +402,7 @@ public class SimpleIntManager implements IntService {
         }
 
         // Port configuration.
+        // 找出有主机在线的端口。如果主机还没有上线怎么办？？
         final Set<PortNumber> hostPorts = deviceService.getPorts(deviceId)
                 .stream()
                 .map(port -> new ConnectPoint(deviceId, port.number()))
@@ -395,6 +410,7 @@ public class SimpleIntManager implements IntService {
                 .map(ConnectPoint::port)
                 .collect(Collectors.toSet());
 
+        // 设备如果支持SOURCE或者SINK，就把所有带主机的接口都设置为INT source port/INT sink port，看起来不是很合理。太粗暴了。
         for (PortNumber port : hostPorts) {
             if (intProg.supportsFunctionality(IntProgrammable.IntFunctionality.SOURCE)) {
                 log.info("Setting port {}/{} as INT source port...", deviceId, port);
@@ -516,6 +532,11 @@ public class SimpleIntManager implements IntService {
             ScheduledFuture<?> newTask = SharedScheduledExecutors.newTimeout(
                     () -> configDeviceTask(deviceId, creationTime),
                     CONFIG_EVENT_DELAY, TimeUnit.SECONDS);
+            // 这个时候newTask还没有真正执行。
+            // put()的使用是：添加时出现相同的键，那么后添加的值会替换（覆盖）掉此键对应的原来的值。并返回此键对应的原来的值。
+            // 这样deviceId上如果有旧的任务，就会返回旧的任务，然后把旧的任务取消掉。
+            // 但是如果oldTask is done呢？这时候的cancel就没有意义了。oldtask is done的时候，会告知scheduledDeviceTasks吗?
+            // confiureDevice成功后，会有 devicesToConfigure.remove(deviceId);
             ScheduledFuture<?> oldTask = scheduledDeviceTasks.put(deviceId, newTask);
             if (oldTask != null) {
                 oldTask.cancel(false);

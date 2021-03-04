@@ -1,0 +1,35 @@
+A successful version. expand SRV6 hops to 12.
+--This line, and those below, will be ignored--
+
+M    p4src/build/bmv2.json
+M    p4src/build/p4info.txt
+M    p4src/include/defines.p4
+M    p4src/include/headers.p4
+M    p4src/include/int_report.p4
+M    p4src/include/int_sink.p4
+M    p4src/include/int_source.p4
+M    p4src/include/int_transit.p4
+M    p4src/include/parsers.p4
+M    p4src/main.p4
+M    src/main/java/com/cxc/ngsdn/IntentReactiveForwarding.java
+M    src/main/java/com/cxc/ngsdn/Srv6Component.java
+M    src/main/resources/bmv2.json
+M    src/main/resources/p4info.txt
+M    tmp/r1/pipe.txt
+M    tmp/r1/stratum_bmv2.log
+M    tmp/r1/write-reqs.txt
+M    tmp/r2/pipe.txt
+M    tmp/r2/stratum_bmv2.log
+M    tmp/r2/write-reqs.txt
+M    tmp/r3/pipe.txt
+M    tmp/r3/stratum_bmv2.log
+M    tmp/r3/write-reqs.txt
+M    tmp/r4/pipe.txt
+M    tmp/r4/stratum_bmv2.log
+M    tmp/r4/write-reqs.txt
+M    tmp/r5/pipe.txt
+M    tmp/r5/stratum_bmv2.log
+M    tmp/r5/write-reqs.txt
+M    tmp/r6/pipe.txt
+M    tmp/r6/stratum_bmv2.log
+M    tmp/r6/write-reqs.txt
