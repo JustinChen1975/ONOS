@@ -705,7 +705,7 @@
       "name" : "fl",
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 410,
+        "line" : 414,
         "column" : 34,
         "source_fragment" : "{ standard_metadata.ingress_port }"
       },
@@ -721,7 +721,7 @@
       "name" : "fl_0",
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 647,
+        "line" : 660,
         "column" : 72,
         "source_fragment" : "{standard_metadata,local_metadata}"
       },
@@ -945,7 +945,7 @@
       "name" : "tuple_1",
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 675,
+        "line" : 688,
         "column" : 24,
         "source_fragment" : "{standard_metadata,local_metadata}"
       },
@@ -2259,7 +2259,7 @@
       "id" : 2,
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 226,
+        "line" : 227,
         "column" : 6,
         "source_fragment" : "counters"
       },
@@ -2295,7 +2295,7 @@
       "id" : 5,
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 430,
+        "line" : 434,
         "column" : 8,
         "source_fragment" : "counters"
       },
@@ -2345,7 +2345,7 @@
       "binding" : "IngressPipeImpl.srv6_my_sid",
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 244,
+        "line" : 245,
         "column" : 50,
         "source_fragment" : "srv6_my_sid_table_counter"
       }
@@ -2357,7 +2357,7 @@
       "binding" : "IngressPipeImpl.srv6_transit",
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 345,
+        "line" : 348,
         "column" : 50,
         "source_fragment" : "srv6_transit_table_counter"
       }
@@ -2370,7 +2370,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 732,
+        "line" : 745,
         "column" : 8,
         "source_fragment" : "update_checksum(hdr.ndp.isValid(), ..."
       },
@@ -3490,7 +3490,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 201,
+            "line" : 202,
             "column" : 8,
             "source_fragment" : "hdr.ethernet.src_addr = hdr.ethernet.dst_addr"
           }
@@ -3509,7 +3509,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 202,
+            "line" : 203,
             "column" : 8,
             "source_fragment" : "hdr.ethernet.dst_addr = dmac"
           }
@@ -3528,7 +3528,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 203,
+            "line" : 204,
             "column" : 8,
             "source_fragment" : "standard_metadata.egress_spec = port_num"
           }
@@ -3570,7 +3570,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 205,
+            "line" : 206,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.hop_limit = hdr.ipv6.hop_limit - 1"
           }
@@ -3619,7 +3619,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 240,
+            "line" : 241,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.segment_left = hdr.srv6h.segment_left - 1"
           }
@@ -3638,7 +3638,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 241,
+            "line" : 242,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.dst_addr = local_metadata"
           }
@@ -3673,7 +3673,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 286,
+            "line" : 287,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.dst_addr = s1"
           }
@@ -3715,7 +3715,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 287,
+            "line" : 288,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.payload_len = hdr.ipv6.payload_len + 40"
           }
@@ -3730,7 +3730,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 262,
+            "line" : 263,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.setValid()"
           }
@@ -3776,7 +3776,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 265,
+            "line" : 266,
             "column" : 12,
             "source_fragment" : "hdr.srv6h.next_hdr ="
           }
@@ -3822,7 +3822,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 266,
+            "line" : 267,
             "column" : 12,
             "source_fragment" : "hdr.hopbyhop_ext_header.next_header ="
           }
@@ -3875,7 +3875,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 269,
+            "line" : 270,
             "column" : 12,
             "source_fragment" : "hdr.srv6h.next_hdr ="
           }
@@ -3928,7 +3928,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 270,
+            "line" : 271,
             "column" : 12,
             "source_fragment" : "hdr.ipv6.next_hdr ="
           }
@@ -3947,7 +3947,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 272,
+            "line" : 273,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.hdr_ext_len = num_segments * 2"
           }
@@ -3966,7 +3966,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 273,
+            "line" : 274,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.routing_type = 4"
           }
@@ -3985,7 +3985,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 274,
+            "line" : 275,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.segment_left = num_segments - 1"
           }
@@ -4004,7 +4004,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 275,
+            "line" : 276,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.last_entry = num_segments - 1"
           }
@@ -4023,7 +4023,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 276,
+            "line" : 277,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.flags = 0"
           }
@@ -4042,7 +4042,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 277,
+            "line" : 278,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.tag = 0"
           }
@@ -4057,7 +4057,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 289,
+            "line" : 290,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[0].setValid()"
           }
@@ -4076,7 +4076,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 290,
+            "line" : 291,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[0].segment_id = s2"
           }
@@ -4091,7 +4091,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 291,
+            "line" : 292,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[1].setValid()"
           }
@@ -4110,7 +4110,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 292,
+            "line" : 293,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[1].segment_id = s1"
           }
@@ -4149,7 +4149,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 296,
+            "line" : 297,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.dst_addr = s1"
           }
@@ -4191,7 +4191,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 297,
+            "line" : 298,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.payload_len = hdr.ipv6.payload_len + 56"
           }
@@ -4206,7 +4206,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 262,
+            "line" : 263,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.setValid()"
           }
@@ -4252,7 +4252,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 265,
+            "line" : 266,
             "column" : 12,
             "source_fragment" : "hdr.srv6h.next_hdr ="
           }
@@ -4298,7 +4298,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 266,
+            "line" : 267,
             "column" : 12,
             "source_fragment" : "hdr.hopbyhop_ext_header.next_header ="
           }
@@ -4351,7 +4351,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 269,
+            "line" : 270,
             "column" : 12,
             "source_fragment" : "hdr.srv6h.next_hdr ="
           }
@@ -4404,7 +4404,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 270,
+            "line" : 271,
             "column" : 12,
             "source_fragment" : "hdr.ipv6.next_hdr ="
           }
@@ -4423,7 +4423,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 272,
+            "line" : 273,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.hdr_ext_len = num_segments * 2"
           }
@@ -4442,7 +4442,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 273,
+            "line" : 274,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.routing_type = 4"
           }
@@ -4461,7 +4461,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 274,
+            "line" : 275,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.segment_left = num_segments - 1"
           }
@@ -4480,7 +4480,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 275,
+            "line" : 276,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.last_entry = num_segments - 1"
           }
@@ -4499,7 +4499,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 276,
+            "line" : 277,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.flags = 0"
           }
@@ -4518,7 +4518,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 277,
+            "line" : 278,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.tag = 0"
           }
@@ -4533,7 +4533,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 299,
+            "line" : 300,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[0].setValid()"
           }
@@ -4552,7 +4552,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 300,
+            "line" : 301,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[0].segment_id = s3"
           }
@@ -4567,7 +4567,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 301,
+            "line" : 302,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[1].setValid()"
           }
@@ -4586,7 +4586,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 302,
+            "line" : 303,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[1].segment_id = s2"
           }
@@ -4601,7 +4601,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 303,
+            "line" : 304,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[2].setValid()"
           }
@@ -4620,7 +4620,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 304,
+            "line" : 305,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[2].segment_id = s1"
           }
@@ -4703,7 +4703,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 321,
+            "line" : 322,
             "column" : 8,
             "source_fragment" : "local_metadata.s0= s0"
           }
@@ -4722,7 +4722,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 322,
+            "line" : 323,
             "column" : 8,
             "source_fragment" : "local_metadata.s1= s1"
           }
@@ -4741,7 +4741,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 323,
+            "line" : 324,
             "column" : 8,
             "source_fragment" : "local_metadata.s2= s2"
           }
@@ -4760,7 +4760,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 324,
+            "line" : 325,
             "column" : 8,
             "source_fragment" : "local_metadata.s3= s3"
           }
@@ -4779,7 +4779,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 325,
+            "line" : 326,
             "column" : 8,
             "source_fragment" : "local_metadata.s4= s4"
           }
@@ -4798,7 +4798,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 326,
+            "line" : 327,
             "column" : 8,
             "source_fragment" : "local_metadata.s5= s5"
           }
@@ -4817,7 +4817,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 327,
+            "line" : 328,
             "column" : 8,
             "source_fragment" : "local_metadata.s6= s6"
           }
@@ -4836,7 +4836,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 328,
+            "line" : 329,
             "column" : 8,
             "source_fragment" : "local_metadata.s7= s7"
           }
@@ -4855,7 +4855,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 329,
+            "line" : 330,
             "column" : 8,
             "source_fragment" : "local_metadata.s8= s8"
           }
@@ -4874,7 +4874,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 330,
+            "line" : 331,
             "column" : 8,
             "source_fragment" : "local_metadata.s9= s9"
           }
@@ -4893,7 +4893,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 331,
+            "line" : 332,
             "column" : 8,
             "source_fragment" : "local_metadata.s10= s10"
           }
@@ -4912,7 +4912,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 332,
+            "line" : 333,
             "column" : 8,
             "source_fragment" : "local_metadata.s11= s11"
           }
@@ -4931,7 +4931,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 334,
+            "line" : 335,
             "column" : 8,
             "source_fragment" : "local_metadata.srv6_segment_num = segment_num"
           }
@@ -4950,7 +4950,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 339,
+            "line" : 342,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.dst_addr = next_hop_ip"
           }
@@ -5042,7 +5042,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 340,
+            "line" : 343,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.payload_len = hdr.ipv6.payload_len + 8+ (bit<16>) segment_num * 16"
           }
@@ -5057,7 +5057,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 262,
+            "line" : 263,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.setValid()"
           }
@@ -5103,7 +5103,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 265,
+            "line" : 266,
             "column" : 12,
             "source_fragment" : "hdr.srv6h.next_hdr ="
           }
@@ -5149,7 +5149,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 266,
+            "line" : 267,
             "column" : 12,
             "source_fragment" : "hdr.hopbyhop_ext_header.next_header ="
           }
@@ -5202,7 +5202,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 269,
+            "line" : 270,
             "column" : 12,
             "source_fragment" : "hdr.srv6h.next_hdr ="
           }
@@ -5255,7 +5255,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 270,
+            "line" : 271,
             "column" : 12,
             "source_fragment" : "hdr.ipv6.next_hdr ="
           }
@@ -5297,7 +5297,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 272,
+            "line" : 273,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.hdr_ext_len = num_segments * 2"
           }
@@ -5316,7 +5316,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 273,
+            "line" : 274,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.routing_type = 4"
           }
@@ -5358,7 +5358,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 274,
+            "line" : 275,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.segment_left = num_segments - 1"
           }
@@ -5400,7 +5400,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 275,
+            "line" : 276,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.last_entry = num_segments - 1"
           }
@@ -5419,7 +5419,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 276,
+            "line" : 277,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.flags = 0"
           }
@@ -5438,7 +5438,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 277,
+            "line" : 278,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.tag = 0"
           }
@@ -5491,7 +5491,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 364,
+            "line" : 368,
             "column" : 12,
             "source_fragment" : "hdr.hopbyhop_ext_header.next_header ="
           }
@@ -5544,7 +5544,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 367,
+            "line" : 371,
             "column" : 12,
             "source_fragment" : "hdr.ipv6.next_hdr ="
           }
@@ -5656,7 +5656,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 373,
+            "line" : 377,
             "column" : 8,
             "source_fragment" : "hdr.ipv6.payload_len = hdr.ipv6.payload_len - srv6h_size"
           }
@@ -5671,7 +5671,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 374,
+            "line" : 378,
             "column" : 8,
             "source_fragment" : "hdr.srv6h.setInvalid()"
           }
@@ -5686,7 +5686,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 376,
+            "line" : 380,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[0].setInvalid()"
           }
@@ -5701,7 +5701,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 377,
+            "line" : 381,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[1].setInvalid()"
           }
@@ -5716,7 +5716,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 378,
+            "line" : 382,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[2].setInvalid()"
           }
@@ -5731,7 +5731,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 379,
+            "line" : 383,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[3].setInvalid()"
           }
@@ -5746,7 +5746,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 380,
+            "line" : 384,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[4].setInvalid()"
           }
@@ -5761,7 +5761,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 381,
+            "line" : 385,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[5].setInvalid()"
           }
@@ -5776,7 +5776,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 382,
+            "line" : 386,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[6].setInvalid()"
           }
@@ -5791,7 +5791,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 383,
+            "line" : 387,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[7].setInvalid()"
           }
@@ -5806,7 +5806,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 384,
+            "line" : 388,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[8].setInvalid()"
           }
@@ -5821,7 +5821,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 385,
+            "line" : 389,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[9].setInvalid()"
           }
@@ -5836,7 +5836,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 386,
+            "line" : 390,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[10].setInvalid()"
           }
@@ -5851,7 +5851,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 387,
+            "line" : 391,
             "column" : 8,
             "source_fragment" : "hdr.srv6_list[11].setInvalid()"
           }
@@ -5877,7 +5877,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 402,
+            "line" : 406,
             "column" : 8,
             "source_fragment" : "standard_metadata.egress_spec = 255"
           }
@@ -5903,7 +5903,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 402,
+            "line" : 406,
             "column" : 8,
             "source_fragment" : "standard_metadata.egress_spec = 255"
           }
@@ -5929,7 +5929,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 410,
+            "line" : 414,
             "column" : 8,
             "source_fragment" : "clone3(CloneType.I2E, 99, { standard_metadata.ingress_port })"
           }
@@ -5955,7 +5955,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 446,
+            "line" : 450,
             "column" : 12,
             "source_fragment" : "standard_metadata.egress_spec = hdr.cpu_out.egress_port"
           }
@@ -5970,7 +5970,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 447,
+            "line" : 451,
             "column" : 12,
             "source_fragment" : "hdr.cpu_out.setInvalid()"
           }
@@ -5980,7 +5980,7 @@
           "parameters" : [],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 448,
+            "line" : 452,
             "column" : 12,
             "source_fragment" : "exit"
           }
@@ -6035,7 +6035,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 455,
+            "line" : 459,
             "column" : 12,
             "source_fragment" : "local_metadata.needtobe_resubmit = false"
           }
@@ -6064,7 +6064,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 456,
+            "line" : 460,
             "column" : 12,
             "source_fragment" : "local_metadata.dstIP_replaced_bySRv6 = false"
           }
@@ -6093,7 +6093,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 458,
+            "line" : 462,
             "column" : 12,
             "source_fragment" : "local_metadata.srv6_processed = true"
           }
@@ -6189,7 +6189,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 479,
+            "line" : 484,
             "column" : 16,
             "source_fragment" : "do_l3_l2 = false"
           }
@@ -6225,7 +6225,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 467,
+            "line" : 471,
             "column" : 8,
             "source_fragment" : "bool do_l3_l2 = true;"
           }
@@ -6321,7 +6321,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 512,
+            "line" : 517,
             "column" : 8,
             "source_fragment" : "bool dst_mac_is_mystation = false;"
           }
@@ -6357,7 +6357,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 514,
+            "line" : 519,
             "column" : 12,
             "source_fragment" : "dst_mac_is_mystation = true"
           }
@@ -6453,7 +6453,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 522,
+            "line" : 528,
             "column" : 20,
             "source_fragment" : "local_metadata.dstIP_replaced_bySRv6 =true"
           }
@@ -6535,7 +6535,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 531,
+            "line" : 539,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[0].setValid()"
           }
@@ -6554,7 +6554,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 532,
+            "line" : 540,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[0].segment_id = local_metadata"
           }
@@ -6596,7 +6596,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 533,
+            "line" : 541,
             "column" : 28,
             "source_fragment" : "sn = sn -1"
           }
@@ -6622,7 +6622,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 529,
+            "line" : 536,
             "column" : 24,
             "source_fragment" : "bit<8> sn = local_metadata.srv6_segment_num;"
           }
@@ -6644,7 +6644,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 535,
+            "line" : 543,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[1].setValid()"
           }
@@ -6663,175 +6663,9 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 536,
-            "column" : 28,
-            "source_fragment" : "hdr.srv6_list[1].segment_id = local_metadata"
-          }
-        },
-        {
-          "op" : "assign",
-          "parameters" : [
-            {
-              "type" : "field",
-              "value" : ["scalars", "sn_0"]
-            },
-            {
-              "type" : "expression",
-              "value" : {
-                "type" : "expression",
-                "value" : {
-                  "op" : "&",
-                  "left" : {
-                    "type" : "expression",
-                    "value" : {
-                      "op" : "+",
-                      "left" : {
-                        "type" : "field",
-                        "value" : ["scalars", "sn_0"]
-                      },
-                      "right" : {
-                        "type" : "hexstr",
-                        "value" : "0xff"
-                      }
-                    }
-                  },
-                  "right" : {
-                    "type" : "hexstr",
-                    "value" : "0xff"
-                  }
-                }
-              }
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/main.p4",
-            "line" : 537,
-            "column" : 28,
-            "source_fragment" : "sn = sn -1"
-          }
-        }
-      ]
-    },
-    {
-      "name" : "act_17",
-      "id" : 46,
-      "runtime_data" : [],
-      "primitives" : [
-        {
-          "op" : "add_header",
-          "parameters" : [
-            {
-              "type" : "header",
-              "value" : "srv6_list[2]"
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/main.p4",
-            "line" : 539,
-            "column" : 28,
-            "source_fragment" : "hdr.srv6_list[2].setValid()"
-          }
-        },
-        {
-          "op" : "assign",
-          "parameters" : [
-            {
-              "type" : "field",
-              "value" : ["srv6_list[2]", "segment_id"]
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s221"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/main.p4",
-            "line" : 540,
-            "column" : 28,
-            "source_fragment" : "hdr.srv6_list[2].segment_id = local_metadata"
-          }
-        },
-        {
-          "op" : "assign",
-          "parameters" : [
-            {
-              "type" : "field",
-              "value" : ["scalars", "sn_0"]
-            },
-            {
-              "type" : "expression",
-              "value" : {
-                "type" : "expression",
-                "value" : {
-                  "op" : "&",
-                  "left" : {
-                    "type" : "expression",
-                    "value" : {
-                      "op" : "+",
-                      "left" : {
-                        "type" : "field",
-                        "value" : ["scalars", "sn_0"]
-                      },
-                      "right" : {
-                        "type" : "hexstr",
-                        "value" : "0xff"
-                      }
-                    }
-                  },
-                  "right" : {
-                    "type" : "hexstr",
-                    "value" : "0xff"
-                  }
-                }
-              }
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/main.p4",
-            "line" : 541,
-            "column" : 28,
-            "source_fragment" : "sn = sn -1"
-          }
-        }
-      ]
-    },
-    {
-      "name" : "act_18",
-      "id" : 47,
-      "runtime_data" : [],
-      "primitives" : [
-        {
-          "op" : "add_header",
-          "parameters" : [
-            {
-              "type" : "header",
-              "value" : "srv6_list[3]"
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/main.p4",
-            "line" : 543,
-            "column" : 28,
-            "source_fragment" : "hdr.srv6_list[3].setValid()"
-          }
-        },
-        {
-          "op" : "assign",
-          "parameters" : [
-            {
-              "type" : "field",
-              "value" : ["srv6_list[3]", "segment_id"]
-            },
-            {
-              "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s322"]
-            }
-          ],
-          "source_info" : {
-            "filename" : "p4src/main.p4",
             "line" : 544,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[3].segment_id = local_metadata"
+            "source_fragment" : "hdr.srv6_list[1].segment_id = local_metadata"
           }
         },
         {
@@ -6879,8 +6713,8 @@
       ]
     },
     {
-      "name" : "act_19",
-      "id" : 48,
+      "name" : "act_17",
+      "id" : 46,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -6888,14 +6722,14 @@
           "parameters" : [
             {
               "type" : "header",
-              "value" : "srv6_list[4]"
+              "value" : "srv6_list[2]"
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 547,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[4].setValid()"
+            "source_fragment" : "hdr.srv6_list[2].setValid()"
           }
         },
         {
@@ -6903,18 +6737,18 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["srv6_list[4]", "segment_id"]
+              "value" : ["srv6_list[2]", "segment_id"]
             },
             {
               "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s423"]
+              "value" : ["scalars", "local_metadata_t._s221"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 548,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[4].segment_id = local_metadata"
+            "source_fragment" : "hdr.srv6_list[2].segment_id = local_metadata"
           }
         },
         {
@@ -6962,8 +6796,8 @@
       ]
     },
     {
-      "name" : "act_20",
-      "id" : 49,
+      "name" : "act_18",
+      "id" : 47,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -6971,14 +6805,14 @@
           "parameters" : [
             {
               "type" : "header",
-              "value" : "srv6_list[5]"
+              "value" : "srv6_list[3]"
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 551,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[5].setValid()"
+            "source_fragment" : "hdr.srv6_list[3].setValid()"
           }
         },
         {
@@ -6986,18 +6820,18 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["srv6_list[5]", "segment_id"]
+              "value" : ["srv6_list[3]", "segment_id"]
             },
             {
               "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s524"]
+              "value" : ["scalars", "local_metadata_t._s322"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 552,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[5].segment_id = local_metadata"
+            "source_fragment" : "hdr.srv6_list[3].segment_id = local_metadata"
           }
         },
         {
@@ -7045,8 +6879,8 @@
       ]
     },
     {
-      "name" : "act_21",
-      "id" : 50,
+      "name" : "act_19",
+      "id" : 48,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -7054,14 +6888,14 @@
           "parameters" : [
             {
               "type" : "header",
-              "value" : "srv6_list[6]"
+              "value" : "srv6_list[4]"
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 555,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[6].setValid()"
+            "source_fragment" : "hdr.srv6_list[4].setValid()"
           }
         },
         {
@@ -7069,18 +6903,18 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["srv6_list[6]", "segment_id"]
+              "value" : ["srv6_list[4]", "segment_id"]
             },
             {
               "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s625"]
+              "value" : ["scalars", "local_metadata_t._s423"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 556,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[6].segment_id = local_metadata"
+            "source_fragment" : "hdr.srv6_list[4].segment_id = local_metadata"
           }
         },
         {
@@ -7128,8 +6962,8 @@
       ]
     },
     {
-      "name" : "act_22",
-      "id" : 51,
+      "name" : "act_20",
+      "id" : 49,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -7137,14 +6971,14 @@
           "parameters" : [
             {
               "type" : "header",
-              "value" : "srv6_list[7]"
+              "value" : "srv6_list[5]"
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 559,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[7].setValid()"
+            "source_fragment" : "hdr.srv6_list[5].setValid()"
           }
         },
         {
@@ -7152,18 +6986,18 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["srv6_list[7]", "segment_id"]
+              "value" : ["srv6_list[5]", "segment_id"]
             },
             {
               "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s726"]
+              "value" : ["scalars", "local_metadata_t._s524"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 560,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[7].segment_id = local_metadata"
+            "source_fragment" : "hdr.srv6_list[5].segment_id = local_metadata"
           }
         },
         {
@@ -7211,8 +7045,8 @@
       ]
     },
     {
-      "name" : "act_23",
-      "id" : 52,
+      "name" : "act_21",
+      "id" : 50,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -7220,14 +7054,14 @@
           "parameters" : [
             {
               "type" : "header",
-              "value" : "srv6_list[8]"
+              "value" : "srv6_list[6]"
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 563,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[8].setValid()"
+            "source_fragment" : "hdr.srv6_list[6].setValid()"
           }
         },
         {
@@ -7235,18 +7069,18 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["srv6_list[8]", "segment_id"]
+              "value" : ["srv6_list[6]", "segment_id"]
             },
             {
               "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s827"]
+              "value" : ["scalars", "local_metadata_t._s625"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 564,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[8].segment_id = local_metadata"
+            "source_fragment" : "hdr.srv6_list[6].segment_id = local_metadata"
           }
         },
         {
@@ -7294,8 +7128,8 @@
       ]
     },
     {
-      "name" : "act_24",
-      "id" : 53,
+      "name" : "act_22",
+      "id" : 51,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -7303,14 +7137,14 @@
           "parameters" : [
             {
               "type" : "header",
-              "value" : "srv6_list[9]"
+              "value" : "srv6_list[7]"
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 567,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[9].setValid()"
+            "source_fragment" : "hdr.srv6_list[7].setValid()"
           }
         },
         {
@@ -7318,18 +7152,18 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["srv6_list[9]", "segment_id"]
+              "value" : ["srv6_list[7]", "segment_id"]
             },
             {
               "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s928"]
+              "value" : ["scalars", "local_metadata_t._s726"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 568,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[9].segment_id = local_metadata"
+            "source_fragment" : "hdr.srv6_list[7].segment_id = local_metadata"
           }
         },
         {
@@ -7377,8 +7211,8 @@
       ]
     },
     {
-      "name" : "act_25",
-      "id" : 54,
+      "name" : "act_23",
+      "id" : 52,
       "runtime_data" : [],
       "primitives" : [
         {
@@ -7386,14 +7220,14 @@
           "parameters" : [
             {
               "type" : "header",
-              "value" : "srv6_list[10]"
+              "value" : "srv6_list[8]"
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 571,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[10].setValid()"
+            "source_fragment" : "hdr.srv6_list[8].setValid()"
           }
         },
         {
@@ -7401,18 +7235,18 @@
           "parameters" : [
             {
               "type" : "field",
-              "value" : ["srv6_list[10]", "segment_id"]
+              "value" : ["srv6_list[8]", "segment_id"]
             },
             {
               "type" : "field",
-              "value" : ["scalars", "local_metadata_t._s1029"]
+              "value" : ["scalars", "local_metadata_t._s827"]
             }
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
             "line" : 572,
             "column" : 28,
-            "source_fragment" : "hdr.srv6_list[10].segment_id = local_metadata"
+            "source_fragment" : "hdr.srv6_list[8].segment_id = local_metadata"
           }
         },
         {
@@ -7460,6 +7294,172 @@
       ]
     },
     {
+      "name" : "act_24",
+      "id" : 53,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "add_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "srv6_list[9]"
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/main.p4",
+            "line" : 575,
+            "column" : 28,
+            "source_fragment" : "hdr.srv6_list[9].setValid()"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["srv6_list[9]", "segment_id"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "local_metadata_t._s928"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/main.p4",
+            "line" : 576,
+            "column" : 28,
+            "source_fragment" : "hdr.srv6_list[9].segment_id = local_metadata"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "sn_0"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "sn_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0xff"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/main.p4",
+            "line" : 577,
+            "column" : 28,
+            "source_fragment" : "sn = sn -1"
+          }
+        }
+      ]
+    },
+    {
+      "name" : "act_25",
+      "id" : 54,
+      "runtime_data" : [],
+      "primitives" : [
+        {
+          "op" : "add_header",
+          "parameters" : [
+            {
+              "type" : "header",
+              "value" : "srv6_list[10]"
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/main.p4",
+            "line" : 579,
+            "column" : 28,
+            "source_fragment" : "hdr.srv6_list[10].setValid()"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["srv6_list[10]", "segment_id"]
+            },
+            {
+              "type" : "field",
+              "value" : ["scalars", "local_metadata_t._s1029"]
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/main.p4",
+            "line" : 580,
+            "column" : 28,
+            "source_fragment" : "hdr.srv6_list[10].segment_id = local_metadata"
+          }
+        },
+        {
+          "op" : "assign",
+          "parameters" : [
+            {
+              "type" : "field",
+              "value" : ["scalars", "sn_0"]
+            },
+            {
+              "type" : "expression",
+              "value" : {
+                "type" : "expression",
+                "value" : {
+                  "op" : "&",
+                  "left" : {
+                    "type" : "expression",
+                    "value" : {
+                      "op" : "+",
+                      "left" : {
+                        "type" : "field",
+                        "value" : ["scalars", "sn_0"]
+                      },
+                      "right" : {
+                        "type" : "hexstr",
+                        "value" : "0xff"
+                      }
+                    }
+                  },
+                  "right" : {
+                    "type" : "hexstr",
+                    "value" : "0xff"
+                  }
+                }
+              }
+            }
+          ],
+          "source_info" : {
+            "filename" : "p4src/main.p4",
+            "line" : 581,
+            "column" : 28,
+            "source_fragment" : "sn = sn -1"
+          }
+        }
+      ]
+    },
+    {
       "name" : "act_26",
       "id" : 55,
       "runtime_data" : [],
@@ -7474,7 +7474,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 575,
+            "line" : 583,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[11].setValid()"
           }
@@ -7493,7 +7493,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 576,
+            "line" : 584,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[11].segment_id = local_metadata"
           }
@@ -7529,7 +7529,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 579,
+            "line" : 588,
             "column" : 24,
             "source_fragment" : "local_metadata.dstIP_replaced_bySRv6 =true"
           }
@@ -7565,7 +7565,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 582,
+            "line" : 591,
             "column" : 16,
             "source_fragment" : "local_metadata.srv6_processed = true"
           }
@@ -7661,7 +7661,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 592,
+            "line" : 601,
             "column" : 27,
             "source_fragment" : "canbe_routed = true"
           }
@@ -7678,7 +7678,7 @@
           "parameters" : [],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 601,
+            "line" : 610,
             "column" : 24,
             "source_fragment" : "exit"
           }
@@ -7714,7 +7714,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 587,
+            "line" : 596,
             "column" : 8,
             "source_fragment" : "bool canbe_routed = false;"
           }
@@ -7810,7 +7810,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 615,
+            "line" : 624,
             "column" : 16,
             "source_fragment" : "canbe_exact_switched=true"
           }
@@ -7846,7 +7846,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 622,
+            "line" : 631,
             "column" : 20,
             "source_fragment" : "canbe_exact_switched = false"
           }
@@ -7882,7 +7882,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 612,
+            "line" : 621,
             "column" : 8,
             "source_fragment" : "bool canbe_exact_switched = false;"
           }
@@ -7918,7 +7918,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 643,
+            "line" : 656,
             "column" : 24,
             "source_fragment" : "local_metadata.needtobe_resubmit = true"
           }
@@ -7954,7 +7954,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 645,
+            "line" : 658,
             "column" : 24,
             "source_fragment" : "local_metadata.needtobe_resubmit = false"
           }
@@ -7973,7 +7973,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 647,
+            "line" : 660,
             "column" : 24,
             "source_fragment" : "clone3(CloneType.I2E, REPORT_MIRROR_SESSION_ID, {standard_metadata,local_metadata} )"
           }
@@ -13711,7 +13711,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/include/int_report.p4",
-            "line" : 115,
+            "line" : 117,
             "column" : 8,
             "source_fragment" : "hdr.ethernet.setInvalid()"
           }
@@ -14173,7 +14173,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/include/int_report.p4",
-            "line" : 121,
+            "line" : 123,
             "column" : 17,
             "source_fragment" : "(bit<32>) ETH_HEADER_LEN + (bit<32>) IPV6_MIN_HEAD_LEN + (bit<32>)hdr.report_udp.len"
           }
@@ -14188,7 +14188,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/include/int_report.p4",
-            "line" : 121,
+            "line" : 123,
             "column" : 8,
             "source_fragment" : "truncate((bit<32>) ETH_HEADER_LEN + (bit<32>) IPV6_MIN_HEAD_LEN + (bit<32>)hdr.report_udp.len )"
           }
@@ -14567,7 +14567,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 671,
+            "line" : 684,
             "column" : 12,
             "source_fragment" : "local_metadata.needtobe_resubmit = false"
           }
@@ -14582,7 +14582,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 675,
+            "line" : 688,
             "column" : 12,
             "source_fragment" : "recirculate({standard_metadata,local_metadata})"
           }
@@ -14592,7 +14592,7 @@
           "parameters" : [],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 676,
+            "line" : 689,
             "column" : 12,
             "source_fragment" : "exit"
           }
@@ -15337,7 +15337,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 707,
+            "line" : 720,
             "column" : 12,
             "source_fragment" : "hdr.cpu_in.setValid()"
           }
@@ -15356,7 +15356,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 708,
+            "line" : 721,
             "column" : 12,
             "source_fragment" : "hdr.cpu_in.ingress_port = standard_metadata.ingress_port"
           }
@@ -15366,7 +15366,7 @@
           "parameters" : [],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 709,
+            "line" : 722,
             "column" : 12,
             "source_fragment" : "exit"
           }
@@ -15388,7 +15388,7 @@
           ],
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 718,
+            "line" : 731,
             "column" : 12,
             "source_fragment" : "mark_to_drop(standard_metadata)"
           }
@@ -15413,7 +15413,7 @@
           "id" : 0,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 446,
+            "line" : 450,
             "column" : 42,
             "source_fragment" : "= hdr.cpu_out.egress_port; ..."
           },
@@ -15442,7 +15442,7 @@
           "id" : 1,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 454,
+            "line" : 458,
             "column" : 44,
             "source_fragment" : "= BMV2_V1MODEL_INSTANCE_TYPE_NORMAL ; ..."
           },
@@ -15471,7 +15471,7 @@
           "id" : 2,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 467,
+            "line" : 471,
             "column" : 8,
             "source_fragment" : "bool do_l3_l2 = true;"
           },
@@ -15583,7 +15583,7 @@
           "id" : 6,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 479,
+            "line" : 484,
             "column" : 25,
             "source_fragment" : "="
           },
@@ -15704,7 +15704,7 @@
           "id" : 9,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 512,
+            "line" : 517,
             "column" : 8,
             "source_fragment" : "bool dst_mac_is_mystation = false;"
           },
@@ -15816,7 +15816,7 @@
           "id" : 13,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 514,
+            "line" : 519,
             "column" : 33,
             "source_fragment" : "="
           },
@@ -15845,7 +15845,7 @@
           "id" : 14,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 245,
+            "line" : 246,
             "column" : 10,
             "source_fragment" : "srv6_my_sid"
           },
@@ -15928,7 +15928,7 @@
           "id" : 17,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 522,
+            "line" : 528,
             "column" : 57,
             "source_fragment" : "="
           },
@@ -15957,7 +15957,7 @@
           "id" : 18,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 524,
+            "line" : 530,
             "column" : 24,
             "source_fragment" : "srv6_pop()"
           },
@@ -15986,7 +15986,7 @@
           "id" : 19,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 346,
+            "line" : 350,
             "column" : 10,
             "source_fragment" : "srv6_transit"
           },
@@ -16069,7 +16069,7 @@
           "id" : 22,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 529,
+            "line" : 536,
             "column" : 24,
             "source_fragment" : "bit<8> sn = local_metadata.srv6_segment_num;"
           },
@@ -16098,7 +16098,7 @@
           "id" : 23,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 531,
+            "line" : 539,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[0].setValid(); ..."
           },
@@ -16127,7 +16127,7 @@
           "id" : 24,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 535,
+            "line" : 543,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[1].setValid(); ..."
           },
@@ -16156,7 +16156,7 @@
           "id" : 25,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 539,
+            "line" : 547,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[2].setValid(); ..."
           },
@@ -16185,7 +16185,7 @@
           "id" : 26,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 543,
+            "line" : 551,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[3].setValid(); ..."
           },
@@ -16214,7 +16214,7 @@
           "id" : 27,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 547,
+            "line" : 555,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[4].setValid(); ..."
           },
@@ -16243,7 +16243,7 @@
           "id" : 28,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 551,
+            "line" : 559,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[5].setValid(); ..."
           },
@@ -16272,7 +16272,7 @@
           "id" : 29,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 555,
+            "line" : 563,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[6].setValid(); ..."
           },
@@ -16301,7 +16301,7 @@
           "id" : 30,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 559,
+            "line" : 567,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[7].setValid(); ..."
           },
@@ -16330,7 +16330,7 @@
           "id" : 31,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 563,
+            "line" : 571,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[8].setValid(); ..."
           },
@@ -16359,7 +16359,7 @@
           "id" : 32,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 567,
+            "line" : 575,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[9].setValid(); ..."
           },
@@ -16388,7 +16388,7 @@
           "id" : 33,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 571,
+            "line" : 579,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[10].setValid(); ..."
           },
@@ -16417,7 +16417,7 @@
           "id" : 34,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 575,
+            "line" : 583,
             "column" : 28,
             "source_fragment" : "hdr.srv6_list[11].setValid(); ..."
           },
@@ -16446,7 +16446,7 @@
           "id" : 35,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 579,
+            "line" : 588,
             "column" : 61,
             "source_fragment" : "="
           },
@@ -16475,7 +16475,7 @@
           "id" : 36,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 582,
+            "line" : 591,
             "column" : 46,
             "source_fragment" : "="
           },
@@ -16504,7 +16504,7 @@
           "id" : 37,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 587,
+            "line" : 596,
             "column" : 8,
             "source_fragment" : "bool canbe_routed = false;"
           },
@@ -16533,7 +16533,7 @@
           "id" : 38,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 208,
+            "line" : 209,
             "column" : 10,
             "source_fragment" : "v6routing_table"
           },
@@ -16611,7 +16611,7 @@
           "id" : 41,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 591,
+            "line" : 600,
             "column" : 50,
             "source_fragment" : "drop()"
           },
@@ -16640,7 +16640,7 @@
           "id" : 42,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 592,
+            "line" : 601,
             "column" : 40,
             "source_fragment" : "="
           },
@@ -16669,7 +16669,7 @@
           "id" : 43,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 600,
+            "line" : 609,
             "column" : 24,
             "source_fragment" : "send_to_cpu()"
           },
@@ -16698,7 +16698,7 @@
           "id" : 44,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 601,
+            "line" : 610,
             "column" : 24,
             "source_fragment" : "exit"
           },
@@ -16727,7 +16727,7 @@
           "id" : 45,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 612,
+            "line" : 621,
             "column" : 8,
             "source_fragment" : "bool canbe_exact_switched = false;"
           },
@@ -16839,7 +16839,7 @@
           "id" : 49,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 615,
+            "line" : 624,
             "column" : 36,
             "source_fragment" : "="
           },
@@ -16905,7 +16905,7 @@
           "id" : 51,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 622,
+            "line" : 631,
             "column" : 41,
             "source_fragment" : "="
           },
@@ -16971,7 +16971,7 @@
           "id" : 53,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 643,
+            "line" : 656,
             "column" : 57,
             "source_fragment" : "="
           },
@@ -17000,7 +17000,7 @@
           "id" : 54,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 645,
+            "line" : 658,
             "column" : 57,
             "source_fragment" : "= false ; ..."
           },
@@ -17029,7 +17029,7 @@
           "id" : 55,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 413,
+            "line" : 417,
             "column" : 10,
             "source_fragment" : "acl_table"
           },
@@ -17154,7 +17154,7 @@
           "id" : 0,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 437,
+            "line" : 441,
             "column" : 12,
             "source_fragment" : "hdr.cpu_out.isValid()"
           },
@@ -17177,7 +17177,7 @@
           "id" : 1,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 451,
+            "line" : 455,
             "column" : 12,
             "source_fragment" : "standard_metadata.instance_type == BMV2_V1MODEL_INSTANCE_TYPE_RECIRC"
           },
@@ -17203,7 +17203,7 @@
           "id" : 2,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 468,
+            "line" : 472,
             "column" : 12,
             "source_fragment" : "hdr.icmpv6.isValid() && hdr.icmpv6.type == ICMP6_TYPE_NS"
           },
@@ -17263,7 +17263,7 @@
           "id" : 4,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 496,
+            "line" : 501,
             "column" : 12,
             "source_fragment" : "local_metadata.int_meta.source == true"
           },
@@ -17313,7 +17313,7 @@
           "id" : 6,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 516,
+            "line" : 522,
             "column" : 13,
             "source_fragment" : "do_l3_l2 && hdr.ipv6.isValid() && dst_mac_is_mystation && !local_metadata.srv6_processed"
           },
@@ -17411,7 +17411,7 @@
           "id" : 8,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 523,
+            "line" : 529,
             "column" : 24,
             "source_fragment" : "hdr.srv6h.isValid() && hdr.srv6h.segment_left == 0"
           },
@@ -17471,7 +17471,7 @@
           "id" : 10,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 530,
+            "line" : 538,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17497,7 +17497,7 @@
           "id" : 11,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 534,
+            "line" : 542,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17523,7 +17523,7 @@
           "id" : 12,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 538,
+            "line" : 546,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17549,7 +17549,7 @@
           "id" : 13,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 542,
+            "line" : 550,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17575,7 +17575,7 @@
           "id" : 14,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 546,
+            "line" : 554,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17601,7 +17601,7 @@
           "id" : 15,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 550,
+            "line" : 558,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17627,7 +17627,7 @@
           "id" : 16,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 554,
+            "line" : 562,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17653,7 +17653,7 @@
           "id" : 17,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 558,
+            "line" : 566,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17679,7 +17679,7 @@
           "id" : 18,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 562,
+            "line" : 570,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17705,7 +17705,7 @@
           "id" : 19,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 566,
+            "line" : 574,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17731,7 +17731,7 @@
           "id" : 20,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 570,
+            "line" : 578,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17757,7 +17757,7 @@
           "id" : 21,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 574,
+            "line" : 582,
             "column" : 27,
             "source_fragment" : "sn >0"
           },
@@ -17783,7 +17783,7 @@
           "id" : 22,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 588,
+            "line" : 597,
             "column" : 13,
             "source_fragment" : "do_l3_l2 && hdr.ipv6.isValid() && dst_mac_is_mystation"
           },
@@ -17857,7 +17857,7 @@
           "id" : 24,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 591,
+            "line" : 600,
             "column" : 23,
             "source_fragment" : "hdr.ipv6.hop_limit == 0"
           },
@@ -17883,7 +17883,7 @@
           "id" : 25,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 599,
+            "line" : 608,
             "column" : 24,
             "source_fragment" : "local_metadata.dstIP_replaced_bySRv6 ==true"
           },
@@ -17916,7 +17916,7 @@
           "id" : 26,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 613,
+            "line" : 622,
             "column" : 13,
             "source_fragment" : "do_l3_l2 && !canbe_routed"
           },
@@ -17980,7 +17980,7 @@
           "id" : 28,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 632,
+            "line" : 642,
             "column" : 13,
             "source_fragment" : "canbe_routed || canbe_exact_switched"
           },
@@ -18020,7 +18020,7 @@
           "id" : 29,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 633,
+            "line" : 643,
             "column" : 17,
             "source_fragment" : "hdr.int_opt_header.isValid()"
           },
@@ -18043,7 +18043,7 @@
           "id" : 30,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 636,
+            "line" : 646,
             "column" : 20,
             "source_fragment" : "local_metadata.int_meta.sink == true"
           },
@@ -18076,7 +18076,7 @@
           "id" : 31,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 642,
+            "line" : 655,
             "column" : 23,
             "source_fragment" : "local_metadata.dstIP_replaced_bySRv6 ==true"
           },
@@ -18109,7 +18109,7 @@
           "id" : 32,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 658,
+            "line" : 671,
             "column" : 11,
             "source_fragment" : "!(canbe_routed || canbe_exact_switched)"
           },
@@ -18158,7 +18158,7 @@
       "id" : 1,
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 665,
+        "line" : 678,
         "column" : 8,
         "source_fragment" : "EgressPipeImpl"
       },
@@ -18169,7 +18169,7 @@
           "id" : 56,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 671,
+            "line" : 684,
             "column" : 45,
             "source_fragment" : "= false; ..."
           },
@@ -19235,7 +19235,7 @@
           "id" : 70,
           "source_info" : {
             "filename" : "p4src/include/int_report.p4",
-            "line" : 125,
+            "line" : 127,
             "column" : 10,
             "source_fragment" : "tb_generate_report"
           },
@@ -19301,7 +19301,7 @@
           "id" : 72,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 707,
+            "line" : 720,
             "column" : 12,
             "source_fragment" : "hdr.cpu_in.setValid(); ..."
           },
@@ -19330,7 +19330,7 @@
           "id" : 73,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 718,
+            "line" : 731,
             "column" : 12,
             "source_fragment" : "mark_to_drop(standard_metadata)"
           },
@@ -19362,7 +19362,7 @@
           "id" : 33,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 670,
+            "line" : 683,
             "column" : 12,
             "source_fragment" : "local_metadata.needtobe_resubmit == true"
           },
@@ -19395,7 +19395,7 @@
           "id" : 34,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 679,
+            "line" : 692,
             "column" : 11,
             "source_fragment" : "hdr.int_opt_header.isValid()"
           },
@@ -19728,7 +19728,7 @@
           "id" : 41,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 685,
+            "line" : 698,
             "column" : 16,
             "source_fragment" : "local_metadata.int_meta.sink == true && (standard_metadata.instance_type == BMV2_V1MODEL_INSTANCE_TYPE_INGRESS_CLONE)"
           },
@@ -19781,7 +19781,7 @@
           "id" : 42,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 691,
+            "line" : 704,
             "column" : 16,
             "source_fragment" : "local_metadata.int_meta.sink == true && !(standard_metadata.instance_type == BMV2_V1MODEL_INSTANCE_TYPE_INGRESS_CLONE)"
           },
@@ -19834,7 +19834,7 @@
           "id" : 43,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 699,
+            "line" : 712,
             "column" : 12,
             "source_fragment" : "standard_metadata.egress_port == 255"
           },
@@ -19860,7 +19860,7 @@
           "id" : 44,
           "source_info" : {
             "filename" : "p4src/main.p4",
-            "line" : 716,
+            "line" : 729,
             "column" : 12,
             "source_fragment" : "local_metadata.is_multicast == true && ..."
           },
@@ -19917,7 +19917,7 @@
       "id" : 0,
       "source_info" : {
         "filename" : "p4src/main.p4",
-        "line" : 732,
+        "line" : 745,
         "column" : 8,
         "source_fragment" : "update_checksum(hdr.ndp.isValid(), ..."
       },

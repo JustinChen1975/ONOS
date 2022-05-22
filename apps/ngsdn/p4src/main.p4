@@ -198,6 +198,7 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
     action_selector(HashAlgorithm.crc16, 32w1024, 32w16) multipaths_selector;
     
     action set_output(port_num_t port_num,mac_addr_t dmac) {
+        // 把src mac改换为Router MAC
         hdr.ethernet.src_addr = hdr.ethernet.dst_addr;
         hdr.ethernet.dst_addr = dmac;
         standard_metadata.egress_spec = port_num;
@@ -336,6 +337,8 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
         // action里不能有if语句；
         // hdr.srv6_list.pop_front(这里必须是constant，不能是变量)
 
+        // 看起来next_hop_ip就是s0，就是SRv6的ingress router的下一跳。
+        // 最后一个S11其实终端主机。所以ingress router +S0 + S1 + .. S10 ，总共支持12跳路由器。
         hdr.ipv6.dst_addr = next_hop_ip;
         hdr.ipv6.payload_len = hdr.ipv6.payload_len + 8+ (bit<16>) segment_num * 16 ;
         insert_srv6h_header((bit<8>) segment_num);
@@ -343,6 +346,7 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
     }
 
     direct_counter(CounterType.packets_and_bytes) srv6_transit_table_counter;
+    // 判断ipv6的目标地址是否需要用SRv6封装。
     table srv6_transit {
       key = {
           hdr.ipv6.dst_addr: lpm;
@@ -474,7 +478,8 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
 
             //hit的话，意味着该NS报文在询问的是本地路由器接口IP地址的对应MAC地址。
             //所以本地路由器会进行报文回复。
-            // 在 action "ndp_ns_to_na"里已经设置了egress port，所以不用处理后续的相关功能模块，但是要克隆给CPU。     
+            // 在 action "ndp_ns_to_na"里已经设置了egress port，所以不用处理后续的相关功能模块，但是要克隆给CPU。 
+            // 克隆的目的是为了让ONOS知道有新的host上来了吧？
             if (ndp_reply_table.apply().hit) {                
                 do_l3_l2 = false;      
             }
@@ -513,6 +518,7 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
         if ( my_station_table.apply().hit) {
             dst_mac_is_mystation = true; 
         }
+        // local_metadata.srv6_processed如果是1的话，那么这应该是个recir的包。
         if ( do_l3_l2 && hdr.ipv6.isValid() && dst_mac_is_mystation && !local_metadata.srv6_processed ) {
 
                 // 如果ipv6的目标地址是本设备的Srv6 id的话。
@@ -525,8 +531,10 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
                     }
                 } else {
                     // srv6_transit table判断是否需要用SRv6进行封装。
+                    // srv6_transit table命中的话，仅仅是写入srv6 header，
                     if(srv6_transit.apply().hit){
                         bit<8> sn =  local_metadata.srv6_segment_num;
+                        // 下面才写入srv6中的各个segment
                         if(sn >0 ) { 
                             hdr.srv6_list[0].setValid(); 
                             hdr.srv6_list[0].segment_id = local_metadata.s0;
@@ -576,6 +584,7 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
                             hdr.srv6_list[11].segment_id = local_metadata.s11;
                             sn = sn -1;  }      
 
+                        // 下面这句其实应该写在action srv6_t_insert里。
                         local_metadata.dstIP_replaced_bySRv6 =_TRUE ;
                     }
                 }      
@@ -624,7 +633,8 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
         }
 
         // INT SINK的判定的处理模块
-        // 确定数据包要发送的端口是不是INT SINK的端口。如果是INT数据包，数据包的发送端口又是INT sink port，那么会进行克隆。
+        // 确定数据包要发送的端口是不是INT SINK的端口。
+        // 如果是INT数据包，数据包的发送端口又是INT sink port，那么会进行克隆。之所以要克隆，是因为要生成INT report的需要。
         // 要在路由和二层处理模块之后判断。因为经过了SRv6, L3, L2等模块的处理之后才确定了真正的egress_port。              
         // TODO： 考虑要引入INT session的概念。因为在同一个INT Domain里，INT source和INT sink应该是成对出现的。
         // 只有这样才能同时支持多个INT测量流的存在，从而不混淆。不然同一个物理端口可能同时作为多个INT 流的sink端口。
@@ -638,7 +648,10 @@ control IngressPipeImpl (inout parsed_headers_t    hdr,
                     // 标记为需要resubmit。rebumit之后会克隆。之所以不直接克隆，是因为直接克隆出来的数据包是原始的数据包。 
                     // 先不考虑SRv6。
                     // local_metadata.needtobe_resubmit = _TRUE ;
-                    // clone_to_cpu();            
+                    // clone_to_cpu();          
+                    // 其实needtobe_resubmit这个名字起得不好。应该是needtobe_recir
+                    // 要求local_metadata.dstIP_replaced_bySRv6 ==_TRUE，是要求SRv6倒数第二跳的处理吧；
+                    // 如果是recir过来的数据包，就不是TRUE的。其实为什么不在上面的Recir block里处理呢？
                    if (local_metadata.dstIP_replaced_bySRv6 ==_TRUE)  {
                         local_metadata.needtobe_resubmit = _TRUE ;                    
                    }else {

@@ -252,6 +252,7 @@ public class Srv6Component {
 
         // SRV6_MAX_HOPS=12
         // cxc : only to fill in .
+        // 如果segmentList数不足12个，那就把后面的填满。只是为了填满12个而已。
         for (int i = sn; i < 12; i++) {
             PiActionParamId paramId = PiActionParamId.of("s" + i );
 //            PiActionParam param = new PiActionParam(paramId, segmentList.get(0).toOctets());
