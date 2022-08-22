@@ -1,57 +1,76 @@
-stratum_bmv2 -device_id=1 -chassis_config_file=/tmp/r6/chassis-config.txt -forwarding_pipeline_configs_file=/tmp/r6/pipe.txt -persistent_config_dir=/tmp/r6 -initial_pipeline=/root/dummy.json -cpu_port=255 -external_stratum_urls=0.0.0.0:50006 -local_stratum_url=localhost:37051 -max_num_controllers_per_node=10 -write_req_log_file=/tmp/r6/write-reqs.txt -logtosyslog=false -logtostderr=true -bmv2_log_level=info
+stratum_bmv2 -device_id=1 -chassis_config_file=/tmp/r6/chassis-config.txt -forwarding_pipeline_configs_file=/tmp/r6/pipe.txt -persistent_config_dir=/tmp/r6 -initial_pipeline=/root/dummy.json -cpu_port=255 -external_stratum_urls=0.0.0.0:50006 -local_stratum_url=localhost:52869 -max_num_controllers_per_node=10 -write_req_log_file=/tmp/r6/write-reqs.txt -logtosyslog=false -logtostderr=true -bmv2_log_level=info
 
 --------------------------------------------------------------------------------
 
-E0517 13:00:02.925208   180 main.cc:121] Starting bmv2 simple_switch and waiting for P4 pipeline
-W0517 13:00:02.942696   180 credentials_manager.cc:45] Using insecure server credentials
-I0517 13:00:02.950129   180 timer_daemon.cc:90] The timer daemon has been started.
-I0517 13:00:02.950788   180 hal.cc:128] Setting up HAL in COLDBOOT mode...
-I0517 13:00:02.951704   180 config_monitoring_service.cc:90] Pushing the saved chassis config read from /tmp/r6/chassis-config.txt...
-I0517 13:00:02.963047   180 bmv2_chassis_manager.cc:476] Registered port status callbacks successfully for node 1.
-I0517 13:00:02.963104   180 bmv2_chassis_manager.cc:61] Adding port 1 to node 1
-I0517 13:00:03.015230   180 bmv2_chassis_manager.cc:61] Adding port 2 to node 1
-I0517 13:00:03.055177   180 bmv2_chassis_manager.cc:61] Adding port 3 to node 1
-I0517 13:00:03.087224   180 bmv2_chassis_manager.cc:61] Adding port 4 to node 1
-I0517 13:00:03.133567   180 p4_service.cc:119] Pushing the saved forwarding pipeline configs read from /tmp/r6/pipe.txt...
-E0517 13:00:03.133649   180 utils.cc:109] StratumErrorSpace::ERR_FILE_NOT_FOUND: /tmp/r6/pipe.txt not found.
-E0517 13:00:03.134011   180 utils.cc:65] Return Error: ReadFileToString(filename, &text) failed with StratumErrorSpace::ERR_FILE_NOT_FOUND: /tmp/r6/pipe.txt not found.
-W0517 13:00:03.134032   180 p4_service.cc:128] No saved forwarding pipeline config found at /tmp/r6/pipe.txt. This is normal when the switch is just installed and no master controller is connected yet.
-E0517 13:00:03.135209998     180 server_chttp2.cc:40]        {"created":"@1652792403.135169379","description":"Only 1 addresses added out of total 2 resolved","file":"external/com_github_grpc_grpc/src/core/ext/transport/chttp2/server/chttp2_server.cc","file_line":406,"referenced_errors":[{"created":"@1652792403.135164553","description":"Address family not supported by protocol","errno":97,"file":"external/com_github_grpc_grpc/src/core/lib/iomgr/socket_utils_common_posix.cc","file_line":420,"os_error":"Address family not supported by protocol","syscall":"socket","target_address":"[::1]:37051"}]}
-E0517 13:00:03.135457   180 hal.cc:223] Stratum external facing services are listening to 0.0.0.0:50006, localhost:37051...
-I0517 13:00:03.143151   274 bmv2_chassis_manager.cc:409] State of port 1 in node 1: UP.
-I0517 13:00:03.143239   274 bmv2_chassis_manager.cc:409] State of port 2 in node 1: UP.
-I0517 13:00:03.143273   274 bmv2_chassis_manager.cc:409] State of port 3 in node 1: UP.
-I0517 13:00:03.143303   274 bmv2_chassis_manager.cc:409] State of port 4 in node 1: UP.
-I0517 13:00:09.169893   294 p4_service.cc:696] Controller (connection_id: 1, election_id: 40, uri: ipv4:172.17.0.1:45560) is connected as MASTER for node (aka device) with ID 1.
-I0517 13:00:09.345893   315 bmv2_switch.cc:74] P4-based forwarding pipeline config pushed successfully to node with ID 1.
-E0517 13:00:09.417078   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.417310   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.419749   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.419875   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.420163   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.421214   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.421344   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.425714   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.425877   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.426198   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.427274   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.427426   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.430068   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.430191   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.430478   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.431953   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.432272   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.434870   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.435204   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-E0517 13:00:09.435500   313 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
-I0517 13:00:09.500802   294 p4_service.cc:696] Controller (connection_id: 1, election_id: 40, uri: ipv4:172.17.0.1:45560) is connected as MASTER for node (aka device) with ID 1.
-I0517 13:00:09.512579   313 config_monitoring_service.cc:377] Initial Subscribe request from ipv4:172.17.0.1:45572 over stream 0x7f6dc50b4510.
-[13:00:09.678] [bmv2] [E] [thread 327] [P4Runtime] Clone session id already exists
-E0517 13:00:09.678655   327 p4_service.cc:270] Failed to write forwarding entries to node 1: 
-[13:00:09.881] [bmv2] [E] [thread 329] [P4Runtime] Clone session id already exists
-E0517 13:00:09.881435   329 p4_service.cc:270] Failed to write forwarding entries to node 1: 
-[13:00:12.932] [bmv2] [E] [thread 241] [15.0] [cxt 0] Exception while parsing: PacketTooShort
-[08:56:55.947] [bmv2] [E] [thread 241] [816704.0] [cxt 0] Exception while parsing: PacketTooShort
-[08:56:55.948] [bmv2] [E] [thread 241] [816704.1] [cxt 0] Exception while parsing: PacketTooShort
-[08:56:56.831] [bmv2] [E] [thread 241] [816705.0] [cxt 0] Exception while parsing: PacketTooShort
-[08:56:56.832] [bmv2] [E] [thread 241] [816705.1] [cxt 0] Exception while parsing: PacketTooShort
+E0623 07:28:52.588368   240 main.cc:121] Starting bmv2 simple_switch and waiting for P4 pipeline
+W0623 07:28:52.594033   240 credentials_manager.cc:45] Using insecure server credentials
+I0623 07:28:52.594485   240 timer_daemon.cc:90] The timer daemon has been started.
+I0623 07:28:52.594583   240 hal.cc:128] Setting up HAL in COLDBOOT mode...
+I0623 07:28:52.594696   240 config_monitoring_service.cc:90] Pushing the saved chassis config read from /tmp/r6/chassis-config.txt...
+I0623 07:28:52.602948   240 bmv2_chassis_manager.cc:476] Registered port status callbacks successfully for node 1.
+I0623 07:28:52.603003   240 bmv2_chassis_manager.cc:61] Adding port 1 to node 1
+I0623 07:28:52.644496   240 bmv2_chassis_manager.cc:61] Adding port 2 to node 1
+I0623 07:28:52.676040   240 bmv2_chassis_manager.cc:61] Adding port 3 to node 1
+I0623 07:28:52.712230   240 bmv2_chassis_manager.cc:61] Adding port 4 to node 1
+I0623 07:28:52.762728   240 p4_service.cc:119] Pushing the saved forwarding pipeline configs read from /tmp/r6/pipe.txt...
+E0623 07:28:52.762822   240 utils.cc:109] StratumErrorSpace::ERR_FILE_NOT_FOUND: /tmp/r6/pipe.txt not found.
+E0623 07:28:52.763128   240 utils.cc:65] Return Error: ReadFileToString(filename, &text) failed with StratumErrorSpace::ERR_FILE_NOT_FOUND: /tmp/r6/pipe.txt not found.
+W0623 07:28:52.763149   240 p4_service.cc:128] No saved forwarding pipeline config found at /tmp/r6/pipe.txt. This is normal when the switch is just installed and no master controller is connected yet.
+E0623 07:28:52.764279140     240 server_chttp2.cc:40]        {"created":"@1655969332.764240062","description":"Only 1 addresses added out of total 2 resolved","file":"external/com_github_grpc_grpc/src/core/ext/transport/chttp2/server/chttp2_server.cc","file_line":406,"referenced_errors":[{"created":"@1655969332.764235370","description":"Address family not supported by protocol","errno":97,"file":"external/com_github_grpc_grpc/src/core/lib/iomgr/socket_utils_common_posix.cc","file_line":420,"os_error":"Address family not supported by protocol","syscall":"socket","target_address":"[::1]:52869"}]}
+E0623 07:28:52.764580   240 hal.cc:223] Stratum external facing services are listening to 0.0.0.0:50006, localhost:52869...
+I0623 07:28:52.794190   278 bmv2_chassis_manager.cc:409] State of port 1 in node 1: UP.
+I0623 07:28:52.794399   278 bmv2_chassis_manager.cc:409] State of port 2 in node 1: UP.
+I0623 07:28:52.794476   278 bmv2_chassis_manager.cc:409] State of port 3 in node 1: UP.
+I0623 07:28:52.794530   278 bmv2_chassis_manager.cc:409] State of port 4 in node 1: UP.
+I0623 07:28:54.352000   298 p4_service.cc:696] Controller (connection_id: 1, election_id: 40, uri: ipv4:172.17.0.1:41540) is connected as MASTER for node (aka device) with ID 1.
+I0623 07:28:54.680624   327 bmv2_switch.cc:74] P4-based forwarding pipeline config pushed successfully to node with ID 1.
+E0623 07:28:54.884634   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.884800   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.886444   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.886562   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.886804   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.887681   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.887804   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.889462   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.889600   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.889837   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.890710   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.890842   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.892529   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.892647   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.892884   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.893754   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.893900   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.895520   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.895632   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+E0623 07:28:54.895865   327 bmv2_switch.cc:189] StratumErrorSpace::ERR_INTERNAL: Not supported yet
+I0623 07:28:54.972863   298 p4_service.cc:696] Controller (connection_id: 1, election_id: 40, uri: ipv4:172.17.0.1:41540) is connected as MASTER for node (aka device) with ID 1.
+I0623 07:28:54.975831   327 config_monitoring_service.cc:377] Initial Subscribe request from ipv4:172.17.0.1:41556 over stream 0x7f6bf97bb510.
+[07:29:28.264] [bmv2] [E] [thread 265] [72.0] [cxt 0] Exception while parsing: PacketTooShort
+[07:29:29.285] [bmv2] [E] [thread 265] [80.0] [cxt 0] Exception while parsing: PacketTooShort
+I0624 08:14:58.469846   298 p4_service.cc:723] Controller (connection_id: 1, election_id: 40, uri: ipv4:172.17.0.1:41540) which was MASTER for node (aka device) with ID 1 is disconnected. The node is now orphan :(
+I0624 08:14:58.468541   327 config_monitoring_service.cc:569] Subscribe stream 0x7f6bf97bb510 from ipv4:172.17.0.1:41556 has been closed.
+open: No such file or directory
+[08:15:03.504] [bmv2] [I] [thread 274] [P4Runtime] WatchPortEnforcer 285265544: port status hasn't changed, ignoring notification
+I0624 08:15:03.504689   278 bmv2_chassis_manager.cc:409] State of port 3 in node 1: DOWN.
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+[08:15:03.905] [bmv2] [I] [thread 274] [P4Runtime] WatchPortEnforcer 285265544: port status hasn't changed, ignoring notification
+[08:15:03.905] [bmv2] [I] [thread 274] [P4Runtime] WatchPortEnforcer 285265544: port status hasn't changed, ignoring notification
+I0624 08:15:03.905548   278 bmv2_chassis_manager.cc:409] State of port 1 in node 1: DOWN.
+I0624 08:15:03.905615   278 bmv2_chassis_manager.cc:409] State of port 2 in node 1: DOWN.
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+open: No such file or directory
+I0624 08:15:04.636476   240 hal.cc:244] Received signal: Terminated
+I0624 08:15:04.637224   240 hal.cc:165] Shutting down HAL...
+I0624 08:15:04.639062   240 timer_daemon.cc:108] The timer daemon has been stopped.
+I0624 08:15:04.639120   240 main.cc:171] See you later!
