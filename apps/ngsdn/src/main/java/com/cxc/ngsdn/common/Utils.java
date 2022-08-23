@@ -89,14 +89,25 @@ public final class Utils {
         checkNotNull(appId);
         checkArgument(!ports.isEmpty());
 
+        //groupKey其实就是groupID的一个特殊表示方法？是根据groupID的一些属性hash生成的？
         final GroupKey groupKey = new DefaultGroupKey(
                 ByteBuffer.allocate(4).putInt(groupId).array());
 
+        /**
+                * Group Bucket definition. A default group Bucket is collection of
+                * Instructions that can be performed on a traffic flow. A failover
+                * group bucket is associated with a specific port or group that
+                * controls its liveness. A select group bucket contains optional
+                * weight field to define the weights among the buckets in the group.
+        // Group Bucket是可以应用到traffic flow上的指令的集合*/
         final List<GroupBucket> bucketList = ports.stream()
+                //这里的给予的指令仅仅是让traffic要从相应的ports发生出去而已吧。这里的指令集合只有一个指令，就是setOutput而已吧。
                 .map(p -> DefaultTrafficTreatment.builder()
                         .setOutput(p).build())
+                         //把上面的TrafficTreatment转换为group  bucket
                 .map(t -> isClone ? createCloneGroupBucket(t)
                         : createAllGroupBucket(t))
+                        //让流量从多个端口发送出去，就形成了组播或者广播。
                 .collect(Collectors.toList());
 
         return new DefaultGroupDescription(
@@ -106,6 +117,7 @@ public final class Utils {
                 groupKey, groupId, appId);
     }
 
+        //groupKey其实就是groupID的一个特殊表示方法？是根据groupID的一些属性hash生成的？
     public static FlowRule buildFlowRule(DeviceId switchId, ApplicationId appId,
                                          String tableId, PiCriterion piCriterion,
                                          PiTableAction piAction) {
@@ -132,13 +144,16 @@ public final class Utils {
         final GroupKey groupKey = new PiGroupKey(
                 PiTableId.of(tableId), PiActionProfileId.of(actionProfileId), groupId);
 
+        //.piTableAction(action).build()) 告诉ONOS,对于待处理的流量进行piTableAction(action)。这里给出的就是处理的指令。
         final List<GroupBucket> buckets = actions.stream()
                 .map(action -> DefaultTrafficTreatment.builder()
-                        .piTableAction(action).build())
+                        .piTableAction(action).build()) 
                 .map(DefaultGroupBucket::createSelectGroupBucket)
                 .collect(Collectors.toList());
         return new DefaultGroupDescription(
                 deviceId,
+                 //*Load-balancing among different bucket sinagroup. 决定了怎么使用groupBuckets. 
+                //  如果是CLONE类型，会和和ALL类似，但是在egress模块中会因为决策不同而有不同的独立处理方法吧。
                 GroupDescription.Type.SELECT,
                 new GroupBuckets(buckets),
                 groupKey,

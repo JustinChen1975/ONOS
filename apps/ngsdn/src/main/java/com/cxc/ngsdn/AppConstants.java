@@ -28,7 +28,7 @@ public class AppConstants {
     public static final int CLEAN_UP_DELAY = 2000; // milliseconds
     public static final int DEFAULT_CLEAN_UP_RETRY_TIMES = 10;
 
-
+    // 这里定义了CPU port
     public static final int CPU_PORT_ID = 255;
     public static final int CPU_CLONE_SESSION_ID = 99;
     public static final int REPORT_MIRROR_SESSION_ID = 500;

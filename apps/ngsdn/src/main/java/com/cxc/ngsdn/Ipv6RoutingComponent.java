@@ -180,7 +180,7 @@ public class Ipv6RoutingComponent {
      * This method will be called at component activation for each device
      * (switch) known by ONOS, and every time a new device-added event is
      * captured by the InternalDeviceListener defined below.
-     *
+     *这个仅仅是为了判断是否是设备自身的MAC而已，在flows里面会添加一条
      * @param deviceId the device ID
      */
     private void setUpMyStationTable(DeviceId deviceId) {
@@ -222,6 +222,8 @@ public class Ipv6RoutingComponent {
      * forwarding for the given collection of next hop MAC addresses. ONOS
      * SELECT groups are equivalent to P4Runtime action selector groups.
      * <p>
+     		createNextHopGroup(): responsible of creating the ONOS equivalent of a P4Runtime action profile group for the ECMP selector of the routing table;
+来自 <https://github.com/opennetworkinglab/ngsdn-tutorial/blob/advanced/EXERCISE-5.md> 
      * This method will be called by the routing policy methods below to insert
      * groups in the L3 table
      *
@@ -229,6 +231,14 @@ public class Ipv6RoutingComponent {
      * @param deviceId    the device where the group will be installed
      * @return a SELECT group
      */
+    // ONOS里的SELECT groups等同于P4Runtime里的Action selector groups
+    // 创建了selector里的groupId与actions的对应关系。table里只有一个action，这个action带上不同的参数("dmac")就成为了不同的member。
+    // 这样一个group里就有多个member,可以实现负载均衡。
+
+//     		这里会创建一个group，该group有多个actions，每个actions的参数是dmac(具体场景里，也就是下一跳路由器的MAC地址）。group本身是没有selector的，可以把group看成是一个特殊的treatment。在创建flowrule的时候，把其中的treatment用group来代替。
+// 		这里的action仅仅是替换了以太网包的目的MAC地址。
+// 后面的l2_table还会根据目的MAC地址来替换为具体的端口。
+
     private GroupDescription createNextHopGroup(int groupId,
                                                 Collection<MacAddress> nextHopMacs,
                                                 DeviceId deviceId) {
@@ -241,7 +251,6 @@ public class Ipv6RoutingComponent {
         // *** TODO EXERCISE 5
         // Modify P4Runtime entity names to match content of P4Info file (look
         // for the fully qualified name of tables, match fields, and actions.
-        // ---- START SOLUTION ----
         final String tableId = "IngressPipeImpl.routing_v6_table";
         for (MacAddress nextHopMac : nextHopMacs) {
             final PiAction action = PiAction.builder()
@@ -253,9 +262,9 @@ public class Ipv6RoutingComponent {
                             nextHopMac.toBytes()))
                     .build();
 
+        //actions会转化成为group里的buckets
             actions.add(action);
         }
-        // ---- END SOLUTION ----
 
         return Utils.buildSelectGroup(
                 deviceId, tableId, actionProfileId, groupId, actions, appId);
@@ -264,6 +273,7 @@ public class Ipv6RoutingComponent {
     /**
      * Creates a routing flow rule that matches on the given IPv6 prefix and
      * executes the given group ID (created before).
+     //这里是创建一个flowRule，但是该flowRule的action/treatment是指向一个groupID的。
      *
      * @param deviceId  the device where flow rule will be installed
      * @param ip6Prefix the IPv6 prefix
@@ -284,7 +294,11 @@ public class Ipv6RoutingComponent {
                         ip6Prefix.address().toOctets(),
                         ip6Prefix.prefixLength())
                 .build();
+        //这里的action为什么是groupID，而不是set_L2_next_hop。
+        // 是把匹配本entry的直接送给action profile selector里的group，而该group前面已经建立了相应的member(也就是action set_l2_next_hop带上参数dmac)
 
+			//下面用的是PiTableAction，而不是PiAction
+//这里就是把group当成了flowrule的action/treatment
         final PiTableAction action = PiActionProfileGroupId.of(groupId);
         // ---- END SOLUTION ----
 
@@ -331,6 +345,9 @@ public class Ipv6RoutingComponent {
      */
     class InternalHostListener implements HostListener {
 
+        //switch case 执行时，一定会先进行匹配，匹配成功返回当前 case 的值，再根据是否有 break，判断是否继续输出，或是跳出判断。
+        //为什么host_added后就break了呢？break后会处理。
+        //那么下面的三条应该也是会处理的。“如果 case 语句块中没有 break 语句时，匹配成功后，从当前 case 开始，后续所有 case 的值都会输出。“那么遇到下面3个事件，最好也是return false.等于不处理。
         @Override
         public boolean isRelevant(HostEvent event) {
             switch (event.type()) {
@@ -760,6 +777,7 @@ public class Ipv6RoutingComponent {
      * @param group     the group
      * @param flowRules the flow rules depending on the group
      */
+    //  因为这里的flowRules依赖于group，所以要先安装group
     private void insertInOrder(GroupDescription group, Collection<FlowRule> flowRules) {
         try {
             groupService.addGroup(group);
@@ -814,6 +832,7 @@ public class Ipv6RoutingComponent {
                     .filter(mastershipService::isLocalMaster)
                     .forEach(deviceId -> {
                         //log.info("*** IPV6 ROUTING - Starting initial set up for {}...", deviceId);
+                        //以太网目标地址是本设备的MAC地址，则不执行任何操作。
                         setUpMyStationTable(deviceId);
                     });
             Thread.sleep(200);
@@ -885,10 +904,12 @@ public class Ipv6RoutingComponent {
      * @param deviceId deviceId the device ID
      * @param host     the host
      */
+    //  如果host本身就在本device上面，那么这条路由的意义不够。要让所有的device都知道有这条路由才行。
     private void setUpHostRules(DeviceId deviceId, Host host) {
 
         // Get all IPv6 addresses associated to this host. In this tutorial we
         // use hosts with only 1 IPv6 address.
+        //为什么只用一个IPv6地址？
         final Collection<Ip6Address> hostIpv6Addrs = host.ipAddresses().stream()
                 .filter(IpAddress::isIp6)
                 .map(IpAddress::getIp6Address)
@@ -903,17 +924,23 @@ public class Ipv6RoutingComponent {
                     deviceId, host.id(), hostIpv6Addrs);
         }
 
+        //group ID是由host MAC独立生成的
+        //group里为什么只有一个member?如果只有一个member怎么平衡？这里的group应该是action selector里的group
         // Create an ECMP group with only one member, where the group ID is
         // derived from the host MAC.
         final MacAddress hostMac = host.mac();
         int groupId = macToGroupId(hostMac);
 
+        //GroupDescription应该就是一组固定属性的不可变集合的一个描述，不同的属性的固定组合就形成了不同的group，是吧。ONOS里的group等同于P4里的action selector里的group。
         final GroupDescription group = createNextHopGroup(
                 groupId, Collections.singleton(hostMac), deviceId);
 
         // Map each host IPV6 address to corresponding /128 prefix and obtain a
         // flow rule that points to the group ID. In this tutorial we expect
         // only one flow rule per host.
+        //这里相当于ARP，所以必须是/128，但是底下哪里看到是128位？ .map(IpAddress::toIpPrefix)  //应该是这句，让IpPrefix和IP地址的长度一致了。
+         // 128位那就是单个IP地址了。是有个带掩码的函数。
+         //createRoutingRule这个函数为目的地为prefix的流量创建一条flowrules，该flowrule指向一个group（该group的id为groupId)
         final List<FlowRule> flowRules = hostIpv6Addrs.stream()
                 .map(IpAddress::toIpPrefix)
                 .filter(IpPrefix::isIp6)
@@ -924,6 +951,7 @@ public class Ipv6RoutingComponent {
         // Helper function to install flows after groups, since here flows
         // points to the group and P4Runtime enforces this dependency during
         // write operations.
+        // 这里的flows指向group，也就是这里的flowrules中的action是和groupID绑定到一起的。
         insertInOrder(group, flowRules);
     }
 
@@ -1015,9 +1043,11 @@ public class Ipv6RoutingComponent {
             // Create a group with only one member.
             int groupId = macToGroupId(leafMac);
 
+            //这里才真正去创建一个group，该group的group ID来自于MAC。参数为该MAC地址段actions作为该group的members
             GroupDescription group = createNextHopGroup(
                     groupId, Collections.singleton(leafMac), spineId);
 
+            //这里相当于创建table里的entry . 让entry和groupID关联起来。这样一旦匹配到entry(这里是subnetsToRoute，就是leaf交换机上的接口的IPv6地址段),就指向到该group
             List<FlowRule> flowRules = subnetsToRoute.stream()
                     .map(subnet -> createRoutingRule(spineId, subnet, groupId))
                     .collect(Collectors.toList());
@@ -1196,3 +1226,22 @@ public class Ipv6RoutingComponent {
     }
 
 }
+
+// 	    private synchronized void setUpAllDevices() {
+// 	        // Set up host routes
+// 	        stream(deviceService.getAvailableDevices())
+// 	                .map(Device::id)
+// 	                .filter(mastershipService::isLocalMaster)
+// 	                .forEach(deviceId -> {
+// 	                    log.info("*** IPV6 ROUTING - Starting initial set up for {}...", deviceId);
+// 				//以太网目标地址是本设备的MAC地址，则不执行任何操作。
+// 	                    setUpMyStationTable(deviceId);
+// 				//在spine设备上添加到其他leaf设备的路由；在leaf设备上添加到其它leaf设备的路由。会先获取leaf设备上的所有interfaces的IP prefix路由段。类似于静态路由。
+// 				//但是缺了从leaf到spine的路由呢，也缺了从spine到spine的路由呢。这个应该是由下面的函数来执行。
+// 	                    setUpFabricRoutes(deviceId);
+// 				//根据链路对端设备的MAC地址、链路这端的出端口。增加一条L2的规则。
+// 	                    setUpL2NextHopRules(deviceId);
+// 	                    hostService.getConnectedHosts(deviceId)
+// 	                            .forEach(host -> setUpHostRules(deviceId, host));
+// 	                });
+//     }

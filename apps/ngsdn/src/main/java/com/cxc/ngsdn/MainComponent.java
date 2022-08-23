@@ -69,6 +69,8 @@ public class MainComponent {
     @Reference(cardinality = ReferenceCardinality.MANDATORY)
     private ComponentConfigService compCfgService;
 
+	//下面就是匿名类的写法。
+    //但是不太清楚在写什么
     private final ConfigFactory<DeviceId, FabricDeviceConfig> fabricConfigFactory =
             new ConfigFactory<DeviceId, FabricDeviceConfig>(
                     SubjectFactories.DEVICE_SUBJECT_FACTORY, FabricDeviceConfig.class, FabricDeviceConfig.CONFIG_KEY) {
@@ -154,6 +156,22 @@ public class MainComponent {
         Collection<FlowRule> flows = Lists.newArrayList(
                 flowRuleService.getFlowEntriesById(appId).iterator());
 
+		//这里的group的概念应该是ONOS的概念。看起来是给flowrules分组。分组后对不同的组进行操作。
+		/**
+		 * Service for create/update/delete "group" in the devices.
+		 * Flow entries can point to a "group" defined in the devices that enables
+		 * to represent additional methods of forwarding like load-balancing or
+		 * failover among different group of ports or multicast to all ports
+		 * specified in a group.
+		group也可以跨越不同的flows里的通用的actions。
+		 * "group" can also be used for grouping common actions of different flows,
+		 * so that in some scenarios only one group entry required to be modified
+		 * for all the referencing flow entries instead of modifying all of them.
+		 *
+		 * This implements semantics of a distributed authoritative group store
+		 * where the master copy of the groups lies with the controller and
+		 * the devices hold only the 'cached' copy.
+        */
         Collection<Group> groups = Lists.newArrayList();
         for (Device device : deviceService.getAvailableDevices()) {
             groupService.getGroups(device.id(), appId).forEach(groups::add);
@@ -192,3 +210,9 @@ public class MainComponent {
         }
     }
 }
+
+// ONOS中Interface和Port的区别：
+// Port：
+// 端口位于OSI模型的第1层，物理层。这层定义了设备的电气和物理规格，如铜或光纤媒体以及电压、线路阻抗、信号配时、和物理布局引脚连接装置如双绞线、同轴电缆或光纤电缆单模或多模的情况。
+// Interface：
+// 接口位于OSI模型的第2层，即数据链路层。这一层定义的功能和程序之间的传输网络设备数据的方法，如串口，以太网，FDDI和令牌环。此外，该层可能提供检测和纠正物理层可能发生的错误的能力。

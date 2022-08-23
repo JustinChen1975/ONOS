@@ -219,7 +219,7 @@ public class Srv6Component {
     public void insertSrv6InsertRule(DeviceId deviceId, Ip6Address destIp, int prefixLength,
                                      List<Ip6Address> segmentList) {
 
-
+        //因为main.p4里只支持插入2段或者3段。
         if (segmentList.size() < 2 || segmentList.size() > 12) {
             throw new RuntimeException("List of " + segmentList.size() + " segments is not supported");
         }
@@ -245,6 +245,7 @@ public class Srv6Component {
         int sn = segmentList.size();
 
         for (int i = 0; i < segmentList.size(); i++) {
+              //生成的是s1,s2,s3等，就是action里的参数的名称。
             PiActionParamId paramId = PiActionParamId.of("s" + (sn -1 -i));
             PiActionParam param = new PiActionParam(paramId, segmentList.get(i).toOctets());
             actionParams.add(param);
@@ -268,6 +269,11 @@ public class Srv6Component {
         PiActionParam snparam = new PiActionParam(snparamId, sn);
         actionParams.add(snparam);
 
+        //main.p4里的action有两种，一个是srv6_t_insert_2，另一个是srv6_t_insert_3。
+        //         	        PiAction action = PiAction.builder()
+        // 	                .withId(PiActionId.of("IngressPipeImpl.srv6_t_insert_" + segmentList.size()))
+        // 	                .withParameters(actionParams)
+        //                 .build();
 
         PiAction action = PiAction.builder()
                 .withId(PiActionId.of("IngressPipeImpl.srv6_t_insert"))
@@ -321,6 +327,7 @@ public class Srv6Component {
         public boolean isRelevant(DeviceEvent event) {
             switch (event.type()) {
                 case DEVICE_ADDED:
+                //设备上线或者下线
                 case DEVICE_AVAILABILITY_CHANGED:
                     break;
                 default:
@@ -393,3 +400,19 @@ public class Srv6Component {
                         "Missing mySid config for " + deviceId));
     }
 }
+
+
+// 		//前面只遇到过怎么创建flowrule，这里提供了一个删除flowrule的很好例子。
+// 	    public void clearSrv6InsertRules(DeviceId deviceId) {
+// 	        // TODO: fill in the table ID for the SRv6 transit table
+// 	        // ---- START SOLUTION ----
+// 	        String tableId = "IngressPipeImpl.srv6_transit";
+// 	        // ---- END SOLUTION ----
+// 	        FlowRuleOperations.Builder ops = FlowRuleOperations.builder();
+// 	//这里的stream的用法比较特别。
+// 	        stream(flowRuleService.getFlowEntries(deviceId))
+// 	                .filter(fe -> fe.appId() == appId.id())
+// 	                .filter(fe -> fe.table().equals(PiTableId.of(tableId)))
+// 	                .forEach(ops::remove);
+// 	        flowRuleService.apply(ops.build());
+//     }

@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+// pipelinerImple也并非一定需要的。
+// Pipeliner 是專門將 FlowObjective 轉換成 Flow + Group 的一個組件
+
 package com.cxc.ngsdn.pipeconf;
 
 import org.onosproject.net.DeviceId;
@@ -50,6 +53,24 @@ import static org.slf4j.LoggerFactory.getLogger;
  * Pipeliner implementation that maps all forwarding objectives to the ACL
  * table. All other types of objectives are not supported.
  */
+//  	本程序只把forwarding objectives送给ACL table.其他类型的objective(比如filteringObjectve等）都不予以支持。
+// 		是ONOS中的lldp等程序下发了如下的流表给设备。貌似生成流表之前的是ForwardingObjective。要求这个obj里的treatment是送个控制器的。
+// 		也就是lldp等APP要下发一些流表给设备，这些流表是让满足条件的流量要被送给控制器去处理。满足条件的流量的类型是arp,bbdp,lldp, ICMP等。
+// 		这些流表需要P4设备上的具体的table去处理，因此需要把main.p4里的具体的table名字和action名字告诉ONS APP。
+// 			 private static final String ACL_TABLE = "IngressPipeImpl.acl_table";
+// 			 private static final String CLONE_TO_CPU = "IngressPipeImpl.clone_to_cpu";
+// 		但是这些流表规则可能会改写对前面的流量的处理方式。因为higher numbers mean higher priorities.
+// 		通过这些流量，数据流会被送给ONOS，然后ONOS上的APP会侦听处理。比如自定的NdpReplyComponent。
+// 如果多个APP在侦听，可能会有冲突。
+
+	// 	cxc@root > flows | grep acl_table
+	// 	    id=1000010a5cc8c, state=ADDED, bytes=3458022, packets=28114, duration=43577, liveType=UNKNOWN, priority=40000, tableId=IngressPipeImpl.acl_table, appId=org.onosproject.core, selector=[ETH_TYPE:lldp], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.clone_to_cpu()], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
+	// 	    id=1000037c6f64c, state=ADDED, bytes=0, packets=0, duration=43577, liveType=UNKNOWN, priority=40000, tableId=IngressPipeImpl.acl_table, appId=org.onosproject.core, selector=[ETH_TYPE:arp], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.clone_to_cpu()], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
+	// 	    id=1000044445b4a, state=ADDED, bytes=0, packets=0, duration=43577, liveType=UNKNOWN, priority=40000, tableId=IngressPipeImpl.acl_table, appId=org.onosproject.core, selector=[ETH_TYPE:bddp], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.clone_to_cpu()], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
+	// 	    id=100005a67e58d, state=ADDED, bytes=0, packets=0, duration=43577, liveType=UNKNOWN, priority=40000, tableId=IngressPipeImpl.acl_table, appId=org.onosproject.core, selector=[ETH_TYPE:ipv6, IP_PROTO:58, ICMPV6_TYPE:135], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.clone_to_cpu()], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
+    // id=10000fb13df92, state=ADDED, bytes=0, packets=0, duration=43577, liveType=UNKNOWN, priority=40000, tableId=IngressPipeImpl.acl_table, appId=org.onosproject.core, selector=[ETH_TYPE:ipv6, IP_PROTO:58, ICMPV6_TYPE:136], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.clone_to_cpu()], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
+
+
 public class PipelinerImpl extends AbstractHandlerBehaviour implements Pipeliner {
 
     // From the P4Info file
@@ -70,11 +91,15 @@ public class PipelinerImpl extends AbstractHandlerBehaviour implements Pipeliner
         this.groupService = context.directory().get(GroupService.class);
     }
 
+    // FilteringObjective：用來表示允許或是擋掉封包進入 Pipeliner 的規則
     @Override
     public void filter(FilteringObjective obj) {
+        //下面这句是什么意思？意味着如果被调用到filter的话，表明不支持。
         obj.context().ifPresent(c -> c.onError(obj, ObjectiveError.UNSUPPORTED));
     }
 
+    // ForwardingObjective：用來描述封包在 Pipeliner 中需要如何去處理
+    //只支持ForwardingObjective
     @Override
     public void forward(ForwardingObjective obj) {
         if (obj.treatment() == null) {
@@ -87,10 +112,12 @@ public class PipelinerImpl extends AbstractHandlerBehaviour implements Pipeliner
                 .filter(i -> i.type().equals(OUTPUT))
                 .map(i -> (Instructions.OutputInstruction) i)
                 .anyMatch(i -> i.port().equals(PortNumber.CONTROLLER));
+        //anyMatch意味着有一个匹配到，那么就终止了。
 
         if (!hasCloneToCpuAction) {
             // We support only objectives for clone to CPU behaviours (e.g. for
             // host and link discovery)
+              //那么谁给traffic的treatment()添加上instructions，要求送给控制器呢？
             obj.context().ifPresent(c -> c.onError(obj, ObjectiveError.UNSUPPORTED));
         }
 
@@ -138,7 +165,8 @@ public class PipelinerImpl extends AbstractHandlerBehaviour implements Pipeliner
 
         obj.context().ifPresent(c -> c.onSuccess(obj));
     }
-
+    
+    // NextObjective：用來描述 Egress table 裡面需要放置什麼樣的東西
     @Override
     public void next(NextObjective obj) {
         obj.context().ifPresent(c -> c.onError(obj, ObjectiveError.UNSUPPORTED));

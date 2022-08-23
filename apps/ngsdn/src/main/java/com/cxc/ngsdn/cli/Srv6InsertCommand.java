@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
 @Command(scope = "onos", name = "srv6-insert",
          description = "Insert a t_insert rule into the SRv6 Transit table")
 public class Srv6InsertCommand extends AbstractShellCommand {
-
+    //uri是命令的参数
     @Argument(index = 0, name = "uri", description = "Device ID",
               required = true, multiValued = false)
     @Completion(DeviceIdCompleter.class)
@@ -65,10 +65,14 @@ public class Srv6InsertCommand extends AbstractShellCommand {
             print("No segments listed");
             return;
         }
+
+         //valueOf是把字符串转成系统识别的IPv6地址。
+
         List<Ip6Address> sids = segments.stream()
                 .map(Ip6Address::valueOf)
                 .collect(Collectors.toList());
         // 列表里的最后一个是真正的目的IPv6地址
+        //原有的目的IP地址在list的最后一个。在main.p4里，是把参数中的最后一个放到了segment_list[0]里面的。按要求，原IP是需要放到seg_list[0]的。
         Ip6Address destIp = sids.get(sids.size() - 1);
 
         print("Installing path on device %s: %s",

@@ -167,9 +167,17 @@ public class L2BridgingComponent {
     /**
      * Inserts an ALL group in the ONOS core to replicate packets on all host
      * facing ports. This group will be used to broadcast all ARP/NDP requests.
-     * <p>
+     * <p> 
+     //往所有端口发送，不考虑端口的VLAN属性吧。
      * ALL groups in ONOS are equivalent to P4Runtime packet replication engine
      * (PRE) Multicast groups.
+       *leaf1上的结果
+			group的TYPE有ALL， SELECT等，ALL是给所有bucket发送流量。SELECT是要在多个bucket中进行负载均衡。
+			   id=0xff, state=ADDED, type=ALL, bytes=0, packets=0, appId=org.onosproject.ngsdn-tutorial, referenceCount=0
+			       id=0xff, bucket=1, bytes=0, packets=0, weight=-1, actions=[OUTPUT:3]
+			       id=0xff, bucket=2, bytes=0, packets=0, weight=-1, actions=[OUTPUT:4]
+			       id=0xff, bucket=3, bytes=0, packets=0, weight=-1, actions=[OUTPUT:5]
+       id=0xff, bucket=4, bytes=0, packets=0, weight=-1, actions=[OUTPUT:6]
      *
      * @param deviceId the device where to install the group
      */
@@ -188,6 +196,7 @@ public class L2BridgingComponent {
                 ports.size(), deviceId);
 
         // Forge group object.
+        //cxc :应该是在这里把具体的各个端口ports和DEFAULT_BROADCAST_GROUP_ID关联起来的。
         final GroupDescription multicastGroup = Utils.buildMulticastGroup(
                 appId, deviceId, DEFAULT_BROADCAST_GROUP_ID, ports);
 
@@ -205,6 +214,10 @@ public class L2BridgingComponent {
      * (switch) known by ONOS, and every time a new device-added event is
      * captured by the InternalDeviceListener defined below.
      *
+     		     *leaf1上的实际结果。
+		
+	    id=c00000a489d650, state=ADDED, bytes=344, packets=4, duration=41023, liveType=UNKNOWN, priority=10, tableId=IngressPipeImpl.l2_ternary_table, appId=org.onosproject.ngsdn-tutorial, selector=[hdr.ethernet.dst_addr=0x333300000000&&&0xffff00000000], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.set_multicast_group(gid=0xff)], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
+    id=c00000c8cf6dac, state=ADDED, bytes=0, packets=0, duration=41023, liveType=UNKNOWN, priority=10, tableId=IngressPipeImpl.l2_ternary_table, appId=org.onosproject.ngsdn-tutorial, selector=[hdr.ethernet.dst_addr=0xffffffffffff&&&0xffffffffffff], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.set_multicast_group(gid=0xff)], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
      * @param deviceId device ID where to install the rules
      */
     private void insertMulticastFlowRules(DeviceId deviceId) {
@@ -223,6 +236,7 @@ public class L2BridgingComponent {
                 .build();
 
         // Match NDP NS - Match ternary 33:33:**:**:**:**
+        //还要配合NdpReplyComponent.java吧。
         final PiCriterion ipv6MulticastCriterion = PiCriterion.builder()
                 .matchTernary(
                         PiMatchFieldId.of("hdr.ethernet.dst_addr"),
@@ -237,6 +251,7 @@ public class L2BridgingComponent {
                         PiActionParamId.of("gid"),
                         DEFAULT_BROADCAST_GROUP_ID))
                 .build();
+                 //该group ID=255对应的端口是哪些？应该是在上面的insertMulticastGroup里处理的。
 
         //  Build 2 flow rules.
         final String tableId = "IngressPipeImpl.l2_ternary_table";
@@ -251,6 +266,7 @@ public class L2BridgingComponent {
                 ipv6MulticastCriterion, setMcastGroupAction);
 
         // Insert rules.
+        //是可变长的参数
         flowRuleService.applyFlowRules(rule1, rule2);
     }
 
@@ -259,10 +275,12 @@ public class L2BridgingComponent {
      * will implement the traditional briding behavior that floods all
      * unmatched traffic.
      * <p>
+     该flowrule的优先级也是一样的，可是它匹配了所有流量，那么也会把其他的组播流量也给拦截了的。虽然流量最后都是送给了同一个group去处理的。因此需要注释掉。
      * This method will be called at component activation for each device
      * (switch) known by ONOS, and every time a new device-added event is
      * captured by the InternalDeviceListener defined below.
      *
+     id=c0000023d5f663, state=PENDING_ADD, bytes=0, packets=0, duration=0, liveType=UNKNOWN, priority=10, tableId=IngressPipeImpl.l2_ternary_table, appId=org.onosproject.ngsdn-tutorial, selector=[hdr.ethernet.dst_addr=0x0&&&0x0], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.set_multicast_group(gid=0xff)], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
      * @param deviceId device ID where to install the rules
      */
     @SuppressWarnings("unused")
@@ -356,6 +374,11 @@ public class L2BridgingComponent {
     /**
      * Listener of device events.
      */
+    //如果当前匹配成功的 case 语句块没有 break 语句，则从当前 case 开始，后续所有 case 的值都会输出，如果后续的 case 语句块有 break 语句则会跳出判断。
+    // 		来自 <https://www.runoob.com/java/java-switch-case.html> 
+    // 		如果匹配到 DEVICE_ADDED或者DEVICE_AVAILABILITY_CHANGED，到了break语句后，就会退出；
+    // 		如果不匹配，到了default，就return false.默认的isRelevant是 return true。
+    // return false后，后面的那2句就都不执行了。不仅仅是跳出了switch，还跳出了整个函数体。return从当前的方法中退出，返回到该调用的方法的语句处，继续执行
     public class InternalDeviceListener implements DeviceListener {
 
         @Override
@@ -369,6 +392,8 @@ public class L2BridgingComponent {
                     return false;
             }
             // Process only if this controller instance is the master.
+               //这个的意思是只让master的控制器来处理。如果不是master的控制器，遇到了也不处理？
+               //返回deviceID
             final DeviceId deviceId = event.subject().id();
             return mastershipService.isLocalMaster(deviceId);
         }
@@ -380,12 +405,14 @@ public class L2BridgingComponent {
                 // A P4Runtime device is considered available in ONOS when there
                 // is a StreamChannel session open and the pipeline
                 // configuration has been set.
+                // 从哪里看到设备的pipeline conf已经设置完成了？看pipeconf目录下的文件。
 
                 // Events are processed using a thread pool defined in the
                 // MainComponent.
                 mainComponent.getExecutorService().execute(() -> {
                     log.info("{} event! deviceId={}", event.type(), deviceId);
-
+                    //新设备的哪些端口进入到multicastGroup呢？刚刚发现新设备的时候，应该还不知道它有哪些端口吧。
+                    // 应该是用上面的mainComponent.scheduleTask(this::setUpAllDevices, INITIAL_SETUP_DELAY);每个一个时间间隔刷新一次setupAllDevices.
                     setUpDevice(deviceId);
                 });
             }
@@ -447,6 +474,7 @@ public class L2BridgingComponent {
      * @return set of host facing ports
      */
     private Set<PortNumber> getHostFacingPorts(DeviceId deviceId) {
+        //是哪个程序从netcfg里读取到设备的interfaces呢？是Srv6DeviceConfig吗？
         // Get all interfaces configured via netcfg for the given device ID and
         // return the corresponding device port number. Interface configuration
         // in the netcfg.json looks like this:
@@ -458,6 +486,8 @@ public class L2BridgingComponent {
         //     }
         //   ]
         // }
+        // .getInterfaces().stream() 是拿到所有设备上的所有interfaces吗,后面再根据deviceID来过滤
+        //  .map(Interface::connectPoint) 是映射，把Interface转换为connectPoint
         return interfaceService.getInterfaces().stream()
                 .map(Interface::connectPoint)
                 .filter(cp -> cp.deviceId().equals(deviceId))
