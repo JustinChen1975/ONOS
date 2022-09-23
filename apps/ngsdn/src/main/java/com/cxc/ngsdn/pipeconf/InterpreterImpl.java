@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-// interpreterImple并非一定需要的。
-// 这个程序只对packet-in和packet-out的数据包进行处理。是吧？
-// Interpreter 主要是處理 ONOS API 轉換至 PI API 的工作
 
 package com.cxc.ngsdn.pipeconf;
 
@@ -66,6 +63,10 @@ import static com.cxc.ngsdn.AppConstants.CPU_PORT_ID;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
+// interpreterImple并非一定需要的。
+// 这个程序是只对packet-in和packet-out的数据包进行处理。是吧？
+// Interpreter 主要是處理 ONOS API 轉換至 PI API 的工作
+
 /**
  * Interpreter implementation.
  */
@@ -78,7 +79,7 @@ public class InterpreterImpl extends AbstractHandlerBehaviour
     private static final int V1MODEL_PORT_BITWIDTH = 9;
 
     // From P4Info.
-    //如果P4Info里有自定义的报文字段，没有与之相应的ONOS type，要怎么处理？
+    //如果P4Info里有自定义的报文字段，没有与之相应的ONOS type，要怎么处理？要参考下SD-Fabric里面是怎么处理的。
     private static final Map<Criterion.Type, String> CRITERION_MAP =
             new ImmutableMap.Builder<Criterion.Type, String>()
                     .put(Criterion.Type.IN_PORT, "standard_metadata.ingress_port")
@@ -136,7 +137,7 @@ public class InterpreterImpl extends AbstractHandlerBehaviour
             } else if (outInst.port().equals(FLOOD)) {
                 // To emulate flooding, we create a packet-out operation for
                 // each switch port.
-                 //下面这句话写了跟白写似的？
+                 //BUILD.add增加一条。
                 final DeviceService deviceService = handler().get(DeviceService.class);
                 for (Port port : deviceService.getPorts(packet.sendThrough())) {
                     builder.add(buildPacketOut(packet.data(), port.number().toLong()));
@@ -176,9 +177,13 @@ public class InterpreterImpl extends AbstractHandlerBehaviour
         // Create metadata instance for egress port.
         // *** TODO EXERCISE 4: modify metadata names to match P4 program
         // 会自动加上standard_metadata后成为standard_metadata.egress_port？
-        // ---- START SOLUTION ----
+        // 要和P4的代码对应
+        // @controller_header("packet_out")
+        // header cpu_out_header_t {
+        //     port_num_t  egress_port;
+        //     bit<7>      _pad;
+        // }
         final String outPortMetadataName = "egress_port";
-        // ---- END SOLUTION ----
         final PiPacketMetadata outPortMetadata = PiPacketMetadata.builder()
                 .withId(PiPacketMetadataId.of(outPortMetadataName))
                 .withValue(portBytes)
@@ -197,22 +202,23 @@ public class InterpreterImpl extends AbstractHandlerBehaviour
      * packet-in operation.
      *
     对于packet-in的数据包，
-    把pipeconf的特定的packet-in转换成为ONOS的InboundPacket Instance吧。后端应该有ONOS的内置APP来解读这个InboundPacket,然后进行处理吧，处理后再发生flow rules的吧。
+    把pipeconf的特定的packet-in转换成为ONOS的InboundPacket Instance吧。
+    后端应该有ONOS的内置APP来解读这个InboundPacket,然后进行处理吧，处理后再发生flow rules的吧。
      * @param packetIn packet operation
      * @param deviceId ID of the device that originated the packet-in
      * @return inbound packet
      * @throws PiInterpreterException if the packet operation cannot be mapped
      *                                to an inbound packet
      */
+    //  ？？？有个疑问就是P4交换机送过来的packet里会自动包含上metadata的名字？？可能要抓包看下。
+    // 对这些metadata的处理，可能是pipeline的一部分吧。可能是pipeline封装上的吧？
     //  mapInboundPacket: 將 ONOS PacketIn 轉換成 PI 格式
     @Override
     public InboundPacket mapInboundPacket(PiPacketOperation packetIn, DeviceId deviceId)
             throws PiInterpreterException {
 
         // Find the ingress_port metadata.
-        // ---- START SOLUTION ----
         final String inportMetadataName = "ingress_port";
-        // ---- END SOLUTION ----
         Optional<PiPacketMetadata> inportMetadata = packetIn.metadatas()
                 .stream()
                 .filter(meta -> meta.id().id().equals(inportMetadataName))
@@ -270,7 +276,8 @@ public class InterpreterImpl extends AbstractHandlerBehaviour
     }
 
     // mapTreatment: 將 ONOS 的 TrafficTreatment 加上 TableId 轉換成 PiAction，這主要是要解決多個 Action 對到單一個 Action 的問題
-    //cxc： treatment应该是ONOS的标准处理，里面包含instructions等。要翻译成为PiAction。PiAction是属于P4runtime的，不是ONOS固有的。这个函数就是把ONOS的“处理”指令翻译成为P4程序中的对应action名字以及该action所需要的参数。
+    //cxc： treatment应该是ONOS的标准处理，里面包含instructions等。要翻译成为PiAction。
+    // PiAction是属于P4runtime的，不是ONOS固有的。这个函数就是把ONOS的“处理”指令翻译成为P4程序中的对应action名字以及该action所需要的参数。
     @Override
     public PiAction mapTreatment(TrafficTreatment treatment, PiTableId piTableId)
             throws PiInterpreterException {
@@ -287,6 +294,13 @@ public class InterpreterImpl extends AbstractHandlerBehaviour
     // mapPiTableId: 將字串 Id 轉換回數字 Id
 
 }
+
+// 另外可以参考p4-tutorial目录下pipeconf ; 
+// stratum-onos-demo下的pipeconf ;
+// stratum.tongyue/fabric-tofino-master/.../PipeconfLoader.java
+// onos/pipelines/basic 下的
+// onos/pipelines/fabric 下的
+
 
 
 
@@ -306,65 +320,6 @@ public class InterpreterImpl extends AbstractHandlerBehaviour
 //         insertTunnelForwardRule(sw, port, tunId, false);
 // }
 
-// 	//cxc： treatment应该是ONOS的标准处理，里面包含instructions等。要翻译成为PiAction。PiAction是属于P4runtime的，不是ONOS固有的。这个函数就是把ONOS的“处理”指令翻译成为P4程序中的对应action名字以及该action所需要的参数。
-// 	    public PiAction mapTreatment(TrafficTreatment treatment, PiTableId piTableId)
-// 	            throws PiInterpreterException {
-	
-// 	        if (piTableId != TABLE_L2_FWD_ID) {
-// 	            throw new PiInterpreterException(
-// 	                    "Can map treatments only for 't_l2_fwd' table");
-// 	        }
-	
-// 	        if (treatment.allInstructions().size() == 0) {
-// 	            // 0 instructions means "NoAction"
-// 	            //陈晓筹：如果指令的数量是0，那意味着"NoAction"
-// 	            return PiAction.builder().withId(ACT_ID_NOP).build();
-// 	        } else if (treatment.allInstructions().size() > 1) {
-// 	            // We understand treatments with only 1 instruction. 
-// 		//陈晓筹：意思是不能下多个指令吧。一次只能发一个指令。
-// 	            throw new PiInterpreterException("Treatment has multiple instructions");
-// 	        }
-	
-// 	        // Get the first and only instruction.
-// 	        Instruction instruction = treatment.allInstructions().get(0);
-	
-		
-// 	        if (instruction.type() != OUTPUT) {
-// 	            // We can map only instructions of type OUTPUT.
-// 		//有多个指令类型，但是这里只对OUTPUT类型的做翻译。
-// 		//那么P4程序里的其他action类型，比如drop应该是在其它地方处理吧。
-// 	            throw new PiInterpreterException(format(
-// 	                    "Instruction of type '%s' not supported", instruction.type()));
-// 	        }
-	
-// 	        OutputInstruction outInstruction = (OutputInstruction) instruction;
-// 	        PortNumber port = outInstruction.port();
-// 		//陈晓筹：isLogical就是看该port是不是个保留名，比如CONTROLLER之类的。
-// 	        if (!port.isLogical()) {
-// 	            return PiAction.builder()
-// 		//陈晓筹：.withId(ACT_ID_SET_EGRESS_PORT) 这里翻译为C_INGRESS + DOT + "set_out_port" ， 也就是c_ingress.set_out_port
-// 		//c_ingress.set_out_port对应的就是下面的P4程序中的action set_out_port，因为该action是在c_ingress这个block块里面，所以该action的全名是c_ingress.set_out_port
-// 		   action set_out_port(port_t port) {
-// 		        // Specifies the output port for this packet by setting the
-// 		        // corresponding metadata.
-// 		        standard_metadata.egress_spec = port;
-// 		    }
-// 		//
-// 	                    .withId(ACT_ID_SET_EGRESS_PORT) 
-// 	//  ACT_PARAM_ID_PORT对应的是“port”,也就是action set_out_port里需要的参数“port".
-// 	                    .withParameter(new PiActionParam(
-// 	                            ACT_PARAM_ID_PORT, copyFrom(port.toLong())))
-// 	                    .build();
-// 	        } else if (port.equals(CONTROLLER)) {
-// 	            return PiAction.builder()
-// 		//ACT_ID_SEND_TO_CPU对应的是c_ingress.send_to_cpu。 P4程序里的action send_to_cpu不需要参数。所以下面就不需要withParameter
-// 	                    .withId(ACT_ID_SEND_TO_CPU)
-// 	                    .build();
-// 	        } else {
-// 	            throw new PiInterpreterException(format(
-// 	                    "Output on logical port '%s' not supported", port));
-// 	        }
-// 	    }
 	
 	
 // 	/**

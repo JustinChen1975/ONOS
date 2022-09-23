@@ -102,6 +102,7 @@ public final class Utils {
         // Group Bucket是可以应用到traffic flow上的指令的集合*/
         final List<GroupBucket> bucketList = ports.stream()
                 //这里的给予的指令仅仅是让traffic要从相应的ports发生出去而已吧。这里的指令集合只有一个指令，就是setOutput而已吧。
+                // 下面是在构建相关的treatment，这些treatment是作用在相关的ports上的
                 .map(p -> DefaultTrafficTreatment.builder()
                         .setOutput(p).build())
                          //把上面的TrafficTreatment转换为group  bucket
@@ -117,7 +118,7 @@ public final class Utils {
                 groupKey, groupId, appId);
     }
 
-        //groupKey其实就是groupID的一个特殊表示方法？是根据groupID的一些属性hash生成的？
+
     public static FlowRule buildFlowRule(DeviceId switchId, ApplicationId appId,
                                          String tableId, PiCriterion piCriterion,
                                          PiTableAction piAction) {
@@ -145,6 +146,7 @@ public final class Utils {
                 PiTableId.of(tableId), PiActionProfileId.of(actionProfileId), groupId);
 
         //.piTableAction(action).build()) 告诉ONOS,对于待处理的流量进行piTableAction(action)。这里给出的就是处理的指令。
+        // 这里是把多个action转换为group中的多个bucket吧。
         final List<GroupBucket> buckets = actions.stream()
                 .map(action -> DefaultTrafficTreatment.builder()
                         .piTableAction(action).build()) 

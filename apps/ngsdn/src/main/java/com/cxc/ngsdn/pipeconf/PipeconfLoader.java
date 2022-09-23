@@ -91,7 +91,9 @@ public final class PipeconfLoader {
 
 		/*
 		就是你想获得文件，你得从最终生成的.class文件为着手点，不要以.java文件的路径为出发点，因为真正使用的就是.class，不会拿个.java文件就使用，因为java是编译型语言嘛
-		至于getResouce()方法的参数，你以class为出发点，再结合相对路径的概念，就可以准确地定位资源文件了，至于它的根目录嘛，你用不同的IDE build出来是不同的位置下的，不过都是以顶层package作为根目录，比如在Web应用中，有一个WEB-INF的目录，WEB-INF目录里面除了web.xml文件外，还有一个classes目录，没错了，它就是你这个WEB应用的package的顶层目录，也是所有.class的根目录“/”，假如clasaes目录下面有一个file.txt文件，它的相对路径就是"/file.txt"，如果相对路径不是以"/"开头，那么它就是相对于.class的路径。。
+		至于getResouce()方法的参数，你以class为出发点，再结合相对路径的概念，就可以准确地定位资源文件了，至于它的根目录嘛，你用不同的IDE build出来是不同的位置下的，
+        不过都是以顶层package作为根目录，比如在Web应用中，有一个WEB-INF的目录，WEB-INF目录里面除了web.xml文件外，还有一个classes目录，没错了，它就是你这个WEB应用的package的顶层目录，
+        也是所有.class的根目录“/”，假如clasaes目录下面有一个file.txt文件，它的相对路径就是"/file.txt"，如果相对路径不是以"/"开头，那么它就是相对于.class的路径。。
 		来自 <https://www.cnblogs.com/hfultrastrong/p/9279371.html> 
         */
 
@@ -104,14 +106,12 @@ public final class PipeconfLoader {
                 .withPipelineModel(pipelineModel)
                 .addBehaviour(PiPipelineInterpreter.class, InterpreterImpl.class)
                 .addBehaviour(Pipeliner.class, PipelinerImpl.class)
-//                .addBehaviour(IntProgrammable.class, IntProgrammableImpl.class)
+                //看起来ONOS对INT有原生的支持。应该是可以定义自己的behaviour,怎么定义还不知道。
+                //.addBehaviour(IntProgrammable.class, IntProgrammableImpl.class)
                 .addExtension(P4_INFO_TEXT, p4InfoUrl)
                 .addExtension(BMV2_JSON, bmv2JsonUrlUrl)
                 .build();
     }
-
-	//看起来ONOS对INT有原生的支持。
-                // .addBehaviour(IntProgrammable.class, IntProgrammableImpl.class)
 
     private void removePipeconfDrivers() {
         List<DriverProvider> driverProvidersToRemove = driverAdminService

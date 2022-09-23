@@ -43,9 +43,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Beta
 public final class IntIntent {
 
-
-
-
     /**
      * Represents a type of INT metadata.
      */

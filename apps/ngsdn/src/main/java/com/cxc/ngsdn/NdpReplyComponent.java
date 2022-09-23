@@ -193,14 +193,16 @@ public class NdpReplyComponent {
         // Generate and install flow rules.
         log.info("Adding rules to {} to generate NDP NA for {} IPv6 interfaces...",
                  deviceId, interfaces.size());
+
+        //  因为一个接口下的IPv6地址可能有多个，所以下面用了flatmap
         final Collection<FlowRule> flowRules = interfaces.stream()
                 .map(this::getIp6Addresses)
                 .flatMap(Collection::stream)
                 .map(ipv6addr -> buildNdpReplyFlowRule(deviceId, ipv6addr, deviceMac))
                 .collect(Collectors.toSet());
-
+                // collect 是一个非常有用的终端操作，它可以将流中的元素转变成另外一个不同的对象，例如一个List，Set或Map。
+        
         installRules(flowRules);
-
 
     }
 
@@ -220,7 +222,6 @@ public class NdpReplyComponent {
         // *** TODO EXERCISE 5
         // Modify P4Runtime entity names to match content of P4Info file (look
         // for the fully qualified name of tables, match fields, and actions.
-        // ---- START SOLUTION ----
         // Build match.
         final PiCriterion match = PiCriterion.builder()
                 .matchExact(PiMatchFieldId.of("hdr.ndp.target_ipv6_addr"), targetIpv6Address.toOctets())
@@ -234,7 +235,6 @@ public class NdpReplyComponent {
                 .build();
         // Table ID.
         final String tableId = "IngressPipeImpl.ndp_reply_table";
-        // ---- END SOLUTION ----
 
         // Build flow rule.
         final FlowRule rule = Utils.buildFlowRule(

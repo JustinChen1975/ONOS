@@ -142,12 +142,9 @@ public class Srv6Component {
         log.info("Adding mySid rule on {} (sid {})...", deviceId, mySid);
 
         // Fill in the table ID for the SRv6 my segment identifier table
-        // ---- START SOLUTION ----
         String tableId = "IngressPipeImpl.srv6_my_sid";
-        // ---- END SOLUTION ----
 
         // Modify the field and action id to match your P4Info
-        // ---- START SOLUTION ----
         PiCriterion match = PiCriterion.builder()
                 .matchLpm(
                         PiMatchFieldId.of("hdr.ipv6.dst_addr"),
@@ -157,7 +154,6 @@ public class Srv6Component {
         PiTableAction action = PiAction.builder()
                 .withId(PiActionId.of("IngressPipeImpl.srv6_end"))
                 .build();
-        // ---- END SOLUTION ----
 
         FlowRule myStationRule = Utils.buildFlowRule(
                 deviceId, appId, tableId, match, action);
@@ -219,7 +215,7 @@ public class Srv6Component {
     public void insertSrv6InsertRule(DeviceId deviceId, Ip6Address destIp, int prefixLength,
                                      List<Ip6Address> segmentList) {
 
-        //因为main.p4里只支持插入2段或者3段。
+        //不能小于2段，也不能大于12段。
         if (segmentList.size() < 2 || segmentList.size() > 12) {
             throw new RuntimeException("List of " + segmentList.size() + " segments is not supported");
         }
@@ -230,12 +226,9 @@ public class Srv6Component {
 //         intentReactiveForwarding.buildLocalRouteForHost(destIp);
 
         // Fill in the table ID for the SRv6 transit table.
-        // ---- START SOLUTION ----
         String tableId = "IngressPipeImpl.srv6_transit";
-        // ---- END SOLUTION ----
 
         // Modify match field, action id, and action parameters to match your P4Info.
-        // ---- START SOLUTION ----
         PiCriterion match = PiCriterion.builder()
                 .matchLpm(PiMatchFieldId.of("hdr.ipv6.dst_addr"), destIp.toOctets(), prefixLength)
                 .build();
@@ -279,7 +272,6 @@ public class Srv6Component {
                 .withId(PiActionId.of("IngressPipeImpl.srv6_t_insert"))
                 .withParameters(actionParams)
                 .build();
-        // ---- END SOLUTION ----
 
         final FlowRule rule = Utils.buildFlowRule(
                 deviceId, appId, tableId, match, action);
@@ -296,11 +288,8 @@ public class Srv6Component {
      * @param deviceId device ID
      */
     public void clearSrv6InsertRules(DeviceId deviceId) {
-        // *** TODO EXERCISE 6
         // Fill in the table ID for the SRv6 transit table
-        // ---- START SOLUTION ----
         String tableId = "IngressPipeImpl.srv6_transit";
-        // ---- END SOLUTION ----
 
         FlowRuleOperations.Builder ops = FlowRuleOperations.builder();
         stream(flowRuleService.getFlowEntries(deviceId))

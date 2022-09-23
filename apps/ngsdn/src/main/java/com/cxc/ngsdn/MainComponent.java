@@ -70,7 +70,8 @@ public class MainComponent {
     private ComponentConfigService compCfgService;
 
 	//下面就是匿名类的写法。
-    //但是不太清楚在写什么
+    //但是不太清楚在写什么。可以先依样画葫芦。
+    // FabricDeviceConfig.class是自己定义的。用于读取设备的相关配置信息（自定义的）。
     private final ConfigFactory<DeviceId, FabricDeviceConfig> fabricConfigFactory =
             new ConfigFactory<DeviceId, FabricDeviceConfig>(
                     SubjectFactories.DEVICE_SUBJECT_FACTORY, FabricDeviceConfig.class, FabricDeviceConfig.CONFIG_KEY) {
@@ -91,8 +92,10 @@ public class MainComponent {
         appId = coreService.registerApplication(APP_NAME);
 
         // Wait to remove flow and groups from previous executions.
+        // 清理以前的groups和flows 
         waitPreviousCleanup();
 
+        // 这应该是在设置一些ONOS的参数。
         compCfgService.preSetProperty("org.onosproject.net.flow.impl.FlowRuleManager",
                                       "fallbackFlowPollFrequency", "4", false);
         compCfgService.preSetProperty("org.onosproject.net.group.impl.GroupManager",
@@ -136,6 +139,8 @@ public class MainComponent {
     /**
      * Schedules a task for the future using the executor service managed by
      * this component.
+     在别的component中会调用到
+     看起来是个通用的包装。会延时一定时间执行指定的task。
      *
      * @param task task runnable
      * @param delaySeconds delay in seconds

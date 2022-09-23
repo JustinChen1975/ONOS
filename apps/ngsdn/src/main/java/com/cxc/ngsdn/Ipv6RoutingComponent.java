@@ -193,10 +193,8 @@ public class Ipv6RoutingComponent {
         // destination* and there is only one action called *NoAction*, which is
         // used as an indication of "table hit" in the control block.
 
-        // *** TODO EXERCISE 5
         // Modify P4Runtime entity names to match content of P4Info file (look
         // for the fully qualified name of tables, match fields, and actions.
-        // ---- START SOLUTION ----
         final String tableId = "IngressPipeImpl.my_station_table";
 
         final PiCriterion match = PiCriterion.builder()
@@ -209,7 +207,6 @@ public class Ipv6RoutingComponent {
         final PiTableAction action = PiAction.builder()
                 .withId(PiActionId.of("NoAction"))
                 .build();
-        // ---- END SOLUTION ----
 
         final FlowRule myStationRule = Utils.buildFlowRule(
                 deviceId, appId, tableId, match, action);
@@ -248,7 +245,6 @@ public class Ipv6RoutingComponent {
         final List<PiAction> actions = Lists.newArrayList();
 
         // Build one "set next hop" action for each next hop
-        // *** TODO EXERCISE 5
         // Modify P4Runtime entity names to match content of P4Info file (look
         // for the fully qualified name of tables, match fields, and actions.
         final String tableId = "IngressPipeImpl.routing_v6_table";
@@ -262,7 +258,7 @@ public class Ipv6RoutingComponent {
                             nextHopMac.toBytes()))
                     .build();
 
-        //actions会转化成为group里的buckets
+            //actions会转化成为group里的buckets
             actions.add(action);
         }
 
@@ -273,7 +269,8 @@ public class Ipv6RoutingComponent {
     /**
      * Creates a routing flow rule that matches on the given IPv6 prefix and
      * executes the given group ID (created before).
-     //这里是创建一个flowRule，但是该flowRule的action/treatment是指向一个groupID的。
+    //这里是创建一个flowRule，但是该flowRule的action/treatment是指向一个groupID的。
+    // 也就是说如果匹配了相应的条件，那么具体的动作要由group里的bucket来决定（select的话就用group中的多个bucket中的一个来反应，可以实现负载均衡等）
      *
      * @param deviceId  the device where flow rule will be installed
      * @param ip6Prefix the IPv6 prefix
@@ -297,10 +294,9 @@ public class Ipv6RoutingComponent {
         //这里的action为什么是groupID，而不是set_L2_next_hop。
         // 是把匹配本entry的直接送给action profile selector里的group，而该group前面已经建立了相应的member(也就是action set_l2_next_hop带上参数dmac)
 
-			//下面用的是PiTableAction，而不是PiAction
-//这里就是把group当成了flowrule的action/treatment
+        //下面用的是PiTableAction，而不是PiAction
+        //这里就是把group当成了flowrule的action/treatment
         final PiTableAction action = PiActionProfileGroupId.of(groupId);
-        // ---- END SOLUTION ----
 
         return Utils.buildFlowRule(
                 deviceId, appId, tableId, match, action);
@@ -467,6 +463,7 @@ public class Ipv6RoutingComponent {
         }
     }
 
+    // 生成某一个link上面的group buckets,根据link的源端所在的srcDev, link所在的port，link的对端的设备的MAC地址
     private GroupBuckets getRelatedGroupBuckets(Link influencedLink){
         DeviceId srcDev = influencedLink.src().deviceId();
         DeviceId dstDev = influencedLink.dst().deviceId();
@@ -480,9 +477,10 @@ public class Ipv6RoutingComponent {
         return generateBucket(dstPortMacPairs, srcDev);
     }
 
+    
     //这是个递归调用的函数。第一次调用是因为link down的event被调用（用firstOrNot来标记）。
     // 接下来会循着后退路径删除路由（先删除group中的对应bucket;如果group中没有了bucket，才会真正把路由对应的flowrule删除掉。）
-    // 因为整条path上的groupID是一致的，因此递归调用的时候会传递groupID。
+    // 因为本APP有个设定条件，那就是整条path上的groupID是一致的，因此递归调用的时候会传递groupID。
     private void deleteGroupbucketOrAndFlowrules (Link influencedLink,List<GroupId> specificGroups,boolean firstOrNot){
         //influencedLink可以是downlink，也可以不是downlink。第一次是downlink，后续的就不是。
         DeviceId srcDev = influencedLink.src().deviceId();
@@ -518,7 +516,7 @@ public class Ipv6RoutingComponent {
                     log.info("delete the flowrules on {} which mapped to the group :{} ", srcDev, group.id().toString());
                     flowRuleService.removeFlowRules(flowRule);
                 });
-//                    getRelatedFlows(group.id(),srcDev).stream().forEach(flowRuleService::removeFlowRules);
+                //getRelatedFlows(group.id(),srcDev).stream().forEach(flowRuleService::removeFlowRules);
 
 
                 //先找还有哪些活动的connectionPoint。接着找到link对端的路由器。
@@ -580,6 +578,7 @@ public class Ipv6RoutingComponent {
     private Set<FlowRule> getRelatedFlows(GroupId groupId,DeviceId srcDev) {
         //虽然是指向group的。但不是Instruction.Type.GROUP，而是PROTOCOL_INDEPENDENT
         //所以不能直接用.filter(inst -> inst.type() == Instruction.Type.GROUP)来过滤。
+        // 因为要找的flowrule的action是指向group的，所以action就是groupId
         final PiTableAction action = PiActionProfileGroupId.of(groupId.id());
 
         //第一种方法
@@ -621,14 +620,10 @@ public class Ipv6RoutingComponent {
             final PiAction action = PiAction.builder()
                     .withId(PiActionId.of("IngressPipeImpl.set_output"))
                     .withParameter(new PiActionParam(
-                            // Action param name.
                             PiActionParamId.of("port_num"),
-                            // Action param value.
                             pair.getLeft().toLong()))
                     .withParameter(new PiActionParam(
-                            // Action param name.
                             PiActionParamId.of("dmac"),
-                            // Action param value.
                             pair.getRight().toBytes()))
                     .build();
 

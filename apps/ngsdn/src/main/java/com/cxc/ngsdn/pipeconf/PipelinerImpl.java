@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-// pipelinerImple也并非一定需要的。
-// Pipeliner 是專門將 FlowObjective 轉換成 Flow + Group 的一個組件
+
 
 package com.cxc.ngsdn.pipeconf;
 
@@ -49,6 +48,9 @@ import static org.onosproject.net.flow.instructions.Instruction.Type.OUTPUT;
 import static com.cxc.ngsdn.AppConstants.CPU_CLONE_SESSION_ID;
 import static org.slf4j.LoggerFactory.getLogger;
 
+// pipelinerImple也并非一定需要的。
+// Pipeliner 是專門將 FlowObjective 轉換成 Flow + Group 的一個組件
+
 /**
  * Pipeliner implementation that maps all forwarding objectives to the ACL
  * table. All other types of objectives are not supported.
@@ -56,7 +58,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 //  	本程序只把forwarding objectives送给ACL table.其他类型的objective(比如filteringObjectve等）都不予以支持。
 // 		是ONOS中的lldp等程序下发了如下的流表给设备。貌似生成流表之前的是ForwardingObjective。要求这个obj里的treatment是送个控制器的。
 // 		也就是lldp等APP要下发一些流表给设备，这些流表是让满足条件的流量要被送给控制器去处理。满足条件的流量的类型是arp,bbdp,lldp, ICMP等。
-// 		这些流表需要P4设备上的具体的table去处理，因此需要把main.p4里的具体的table名字和action名字告诉ONS APP。
+// 		这些流表需要P4设备上的具体的table去处理，因此需要把main.p4里的具体的table名字和action名字告诉OONS APP。
 // 			 private static final String ACL_TABLE = "IngressPipeImpl.acl_table";
 // 			 private static final String CLONE_TO_CPU = "IngressPipeImpl.clone_to_cpu";
 // 		但是这些流表规则可能会改写对前面的流量的处理方式。因为higher numbers mean higher priorities.
@@ -92,6 +94,7 @@ public class PipelinerImpl extends AbstractHandlerBehaviour implements Pipeliner
     }
 
     // FilteringObjective：用來表示允許或是擋掉封包進入 Pipeliner 的規則
+    // 这个例子里下发特定的流表，这些流表要求一些在遇到一些数据包的时候，要上传给ONOS控制器。
     @Override
     public void filter(FilteringObjective obj) {
         //下面这句是什么意思？意味着如果被调用到filter的话，表明不支持。
@@ -121,6 +124,7 @@ public class PipelinerImpl extends AbstractHandlerBehaviour implements Pipeliner
             obj.context().ifPresent(c -> c.onError(obj, ObjectiveError.UNSUPPORTED));
         }
 
+        // 事实上，这个flowrule也应该可以在APP里完成吧，不一定非得在pipelinerimple.java完成吧？
         // Create an equivalent FlowRule with same selector and clone_to_cpu action.
         final PiAction cloneToCpuAction = PiAction.builder()
                 .withId(PiActionId.of(CLONE_TO_CPU))
@@ -135,6 +139,7 @@ public class PipelinerImpl extends AbstractHandlerBehaviour implements Pipeliner
                 .withTreatment(DefaultTrafficTreatment.builder()
                                        .piTableAction(cloneToCpuAction).build());
 
+        // 这里是定义flowrule的timeout或者设置为
         if (obj.permanent()) {
             ruleBuilder.makePermanent();
         } else {

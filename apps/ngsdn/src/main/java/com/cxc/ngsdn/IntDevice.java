@@ -50,13 +50,16 @@ import org.onlab.util.ImmutableByteSequence;
 import static com.cxc.ngsdn.AppConstants.INITIAL_SETUP_DELAY;
 import static org.slf4j.LoggerFactory.getLogger;
 
+
 //public class IntProcess extends AbstractHandlerBehaviour implements IntProgrammable {
 @Component(
         immediate = true,
         // set to true when ready
         enabled = true,
+        // service会在别的java文件中调用
         service = IntDevice.class
 )
+
 public class IntDevice  {
 
     // TODO: change this value to the value of diameter of a network.
@@ -121,6 +124,7 @@ public class IntDevice  {
 ////        this.flowRuleService = flowRuleService;
 //    }
 
+    // 好像没有在提供service ?
     @Activate
     protected void activate() {
         appId = mainComponent.getAppId();
@@ -136,11 +140,11 @@ public class IntDevice  {
         log.info("INT devices Stopped");
     }
 
-
-    // init()后，P4交换机(充当INT transit)如果遇到带有int option报头的报文，才会插入INT的metadata
+// 在simpleIntManager.java中会调用init().在IDEA里可以用call hierarchy查看调用路径。
+// init()后，P4交换机(充当INT transit)如果遇到带有int option报头的报文，才会插入INT的metadata
+// 这里的init其实就是添加了一个flowrule，也就是在table tb_int_insert里面添加了一条entry
 //    @Override
     public boolean init(DeviceId deviceId) {
-
 
         PiActionParam transitIdParam = new PiActionParam(
                 IntConstants.SWITCH_ID,
@@ -154,11 +158,17 @@ public class IntDevice  {
         TrafficTreatment treatment = DefaultTrafficTreatment.builder()
                 .piTableAction(transitAction)
                 .build();
+
+        // int_transit.p4的table tb_int_insert里面
+        // key = {
+        //     hdr.int_opt_header.isValid(): exact @name("int_is_valid");
+        // }
         TrafficSelector selector = DefaultTrafficSelector.builder()
                 .matchPi(PiCriterion.builder().matchExact(
                         IntConstants.HDR_INT_IS_VALID, (byte) 0x01)
                          .build())
                 .build();        
+
         FlowRule transitFlowRule = DefaultFlowRule.builder()
                 .withSelector(selector)
                 .withTreatment(treatment)
@@ -184,6 +194,7 @@ public class IntDevice  {
 //            return false;
 //        }
 
+        // 这几个函数都差不多，应该考虑简化下。
         // process_int_source_sink.tb_set_source for each host-facing port
         PiCriterion ingressCriterion = PiCriterion.builder()
                 .matchExact(IntConstants.HDR_STANDARD_METADATA_INGRESS_PORT, port.toLong())
@@ -271,6 +282,8 @@ public class IntDevice  {
 //                .filter(f -> f.table().type() == TableId.Type.PIPELINE_INDEPENDENT)
 //                .filter(f -> TABLES_TO_CLEANUP.contains((PiTableId) f.table()))
 //                .forEach(flowRuleService::removeFlowRules);
+
+        // TABLES_TO_CLEANUP里面定义了和INT相关的tables
         StreamSupport.stream(flowRuleService.getFlowEntries(
                 deviceId).spliterator(), false)
                 .filter(f -> f.table().type() == TableId.Type.PIPELINE_INDEPENDENT)
@@ -320,6 +333,7 @@ public class IntDevice  {
         flowRuleService.applyFlowRules(instFlowRule);
     }
 
+    // TODO:要关注下怎么构建一个INT object(for IPv6)
     private FlowRule buildWatchlistEntry(DeviceId deviceId,IntObjective obj) {
         int instructionBitmap = buildInstructionBitmap(deviceId,obj.metadataTypes());
         // PiActionParam hopMetaLenParam = new PiActionParam(
@@ -347,7 +361,6 @@ public class IntDevice  {
                 .piTableAction(intSourceAction)
                 .build();
 
-         // TODO:要关注下怎么构建一个INT object(for IPv6)
         TrafficSelector.Builder sBuilder = DefaultTrafficSelector.builder();
 
         PiCriterion.Builder piCriterionBuilder = PiCriterion.builder();

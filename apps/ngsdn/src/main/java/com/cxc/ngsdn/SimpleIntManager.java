@@ -165,6 +165,8 @@ public class SimpleIntManager implements IntService {
     private final InternalIntDeviceToConfigureListener intDevicesToConfigureListener =
             new InternalIntDeviceToConfigureListener();
 
+    // Kryo是一个快速高效的Java序列化框架，旨在提供快速、高效和易用的API。无论文件、数据库或网络数据Kryo都可以随时完成序列化。Kryo还可以执行自动深拷贝（克隆）、浅拷贝（克隆）。这是对象到对象的直接拷贝，而不是对象->字节->对象的拷贝。
+
     @Activate
     public void activate() {
 
@@ -172,6 +174,8 @@ public class SimpleIntManager implements IntService {
         log.info("Int Service is activing.");
         appId = mainComponent.getAppId();
 
+        // 注册要序列化的类.
+        // 在注册类的时候，Kryo会给每个类关联一个唯一的ID，不同的类的ID不一样，当在序列化类的对象时，Kryo只需保存这个类的ID信息，就可以识别序列化对象的类信息了。相对于保存完整的类名称信息，这种序列化方式能够提高效率。因此，不同程序或线程在对同样的对象信息序列化和去序列化时，要保证同样的类的注册ID是一样的。
         KryoNamespace.Builder serializer = KryoNamespace.newBuilder()
                 .register(KryoNamespaces.API)
                 .register(IntIntent.class)
@@ -320,13 +324,16 @@ public class SimpleIntManager implements IntService {
         );
     }
 
+    // 看起来，IntConfig其实是IntCollector的相关配置，主要用来发现INT report所需要的。
+    // 而IntIntent是INT的真正的遥测意图，包含INT的类型，INT的对什么流量感兴趣，要采集什么样的数据，同时也包含了intConfig(也就是指示要如何收集INT的metadata)
+    // 而intObject则是包含了包含INT的类型，INT的对什么流量感兴趣，要采集什么样的数据
     @Override
     public IntIntentId installIntIntent(IntIntent intent) {
         checkNotNull(intent);
         final Integer intentId = (int) intentIds.nextId();
         final IntIntentId intIntentId = IntIntentId.valueOf(intentId);
         // Intent map event will trigger device configure.
-//        intentMap.put(intIntentId, intent);
+        // intentMap.put(intIntentId, intent);
         // 这里的intent里的内容会被转到intObjective里面，然后使用intProg.addObjective.
 
         initAllIntDevice();
@@ -334,8 +341,13 @@ public class SimpleIntManager implements IntService {
         Set<ConnectPoint> sourceCPs  = new HashSet<>();
 
 //        TODO: need to change to mulit ports. now it 's only one connetctpoint.
+// 看起来scp已经是多个端口了？
+// 这里是根据intIntent对什么流量感兴趣（目前在设置感兴趣流量的时候必须有指定源IPv6地址），来计算出INT的source port，而非把所有端口都设定为INT  source port。
+// TODO: 这个获取sourcePOrt的功能看起来应该放到intIntent.class里才比较合理，别的地方要用的话只要调用相关函数就可以的。
 //          Optional<ConnectPoint> sourceCP =
+
                   intent.selector().criteria().stream()
+                // 有点局限。要求在定义intIntent的感兴趣的流量的时候，必须定义源IP地址。后面可能需要改进。
                 .filter(criterion -> (criterion.type() == Criterion.Type.IPV6_SRC) )
                 .map( criterion -> ((IPCriterion) criterion ).ip())
                 .filter(IpPrefix::isIp6)
@@ -386,7 +398,7 @@ public class SimpleIntManager implements IntService {
     public void removeIntIntent(IntIntentId intentId) {
         checkNotNull(intentId);
         // Intent map event will trigger device configure.
-        // 好像也没有真正从设备上删除intIntent？？
+        // TODO:好像也没有真正从设备上删除intIntent？？
         intentMap.remove(intentId).value();
     }
 

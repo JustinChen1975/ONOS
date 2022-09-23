@@ -162,11 +162,11 @@ public class IntentReactiveForwarding {
 
         TrafficSelector.Builder selector = DefaultTrafficSelector.builder();
         //selector.matchEthType(Ethernet.TYPE_IPV4);
+        // 意味着只处理v6的数据包吧。
         selector.matchEthType(Ethernet.TYPE_IPV6);
         packetService.requestPackets(selector.build(), PacketPriority.REACTIVE, appId);
 
         log.info("ReactiveForwrding Started");
-
 
     }
 
@@ -175,7 +175,6 @@ public class IntentReactiveForwarding {
         packetService.removeProcessor(processor);
         processor = null;
         log.info("ReactiveForwarding Stopped");
-
     }
 
 
@@ -251,7 +250,7 @@ public class IntentReactiveForwarding {
                 .ifPresent(dstDeviceId -> buildRoutingTable(dstIp6Address, dstIp6Prefixes, srcDeviceId, dstDeviceId));
     }
 
-    //只是在srcDevice和dstDevice之间建立单边路径。安装的路由表为dstDevice上面的subnets and including Srv6 SID。
+    //只是在srcDevice和dstDevice之间建立单边路径。安装的路由表为dstDevice上面的subnets，同时包括Srv6 SID。
     protected void buildSinglePathForSW(DeviceId srcDeviceId,DeviceId dstDeviceId ){
         List<Ip6Address> dstIp6Address = Collections.emptyList();
 
@@ -286,7 +285,7 @@ public class IntentReactiveForwarding {
     }
 
     private void buildRoutingTable(List<Ip6Address> dstIp6Address,List<Ip6Prefix> dstIp6Prefixes,DeviceId srcDeviceId,DeviceId dstDeviceId){
-
+        // 目标设备和源设备相同，就建立两个设备之间的路径；否则，就建立本地路由表。
         if (!srcDeviceId.equals(dstDeviceId)) {
             //setUpConnectivityBetweenDevice(dstIp6Addr, srcDeviceId, dstDeviceId);
             //setupConBetweenDevicesViaPort(dstIp6Addr,srcDeviceId,dstDeviceId);
@@ -302,7 +301,8 @@ public class IntentReactiveForwarding {
                         .ifPresentOrElse(portNumberMacAddressPair ->
                                         setupLocalRoute(dstIp6Addr,dstDeviceId,Collections.singleton(portNumberMacAddressPair)),
                                 () -> probe(dstIp6Addr));
-
+            // 本APP的路由表是指向port和对端的MAC地址的，因此这里有用到portNumberMacAddressPair
+            // 如果找不到host，就要probe该IP的host
             });
         }
     }
@@ -1057,7 +1057,7 @@ public class IntentReactiveForwarding {
             actions.add(action);
         }
 
-
+        // 应该参照上面的写法吧。上面的比较严谨吧。
         return Utils.buildSelectGroup(
                 deviceId, tableId, actionProfileId, groupId, actions, appId);
     }

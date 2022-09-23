@@ -172,6 +172,7 @@ public class L2BridgingComponent {
      * ALL groups in ONOS are equivalent to P4Runtime packet replication engine
      * (PRE) Multicast groups.
        *leaf1上的结果
+            下面就是创建了一个group，group id是255,里面有4个bucket .
 			group的TYPE有ALL， SELECT等，ALL是给所有bucket发送流量。SELECT是要在多个bucket中进行负载均衡。
 			   id=0xff, state=ADDED, type=ALL, bytes=0, packets=0, appId=org.onosproject.ngsdn-tutorial, referenceCount=0
 			       id=0xff, bucket=1, bytes=0, packets=0, weight=-1, actions=[OUTPUT:3]
@@ -214,10 +215,15 @@ public class L2BridgingComponent {
      * (switch) known by ONOS, and every time a new device-added event is
      * captured by the InternalDeviceListener defined below.
      *
-     		     *leaf1上的实际结果。
-		
-	    id=c00000a489d650, state=ADDED, bytes=344, packets=4, duration=41023, liveType=UNKNOWN, priority=10, tableId=IngressPipeImpl.l2_ternary_table, appId=org.onosproject.ngsdn-tutorial, selector=[hdr.ethernet.dst_addr=0x333300000000&&&0xffff00000000], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.set_multicast_group(gid=0xff)], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
-    id=c00000c8cf6dac, state=ADDED, bytes=0, packets=0, duration=41023, liveType=UNKNOWN, priority=10, tableId=IngressPipeImpl.l2_ternary_table, appId=org.onosproject.ngsdn-tutorial, selector=[hdr.ethernet.dst_addr=0xffffffffffff&&&0xffffffffffff], treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.set_multicast_group(gid=0xff)], deferred=[], transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
+     *leaf1上的实际结果。
+	    id=c00000a489d650, state=ADDED, bytes=344, packets=4, duration=41023, liveType=UNKNOWN, priority=10, tableId=IngressPipeImpl.l2_ternary_table, 
+            appId=org.onosproject.ngsdn-tutorial, selector=[hdr.ethernet.dst_addr=0x333300000000&&&0xffff00000000],
+            treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.set_multicast_group(gid=0xff)], deferred=[], 
+            transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
+        id=c00000c8cf6dac, state=ADDED, bytes=0, packets=0, duration=41023, liveType=UNKNOWN, priority=10, tableId=IngressPipeImpl.l2_ternary_table, 
+            appId=org.onosproject.ngsdn-tutorial, selector=[hdr.ethernet.dst_addr=0xffffffffffff&&&0xffffffffffff], 
+            treatment=DefaultTrafficTreatment{immediate=[IngressPipeImpl.set_multicast_group(gid=0xff)], deferred=[], 
+            transition=None, meter=[], cleared=false, StatTrigger=null, metadata=null}
      * @param deviceId device ID where to install the rules
      */
     private void insertMulticastFlowRules(DeviceId deviceId) {
@@ -228,6 +234,10 @@ public class L2BridgingComponent {
         // for the fully qualified name of tables, match fields, and actions.
         // ---- START SOLUTION ----
         // Match ARP request - Match exactly FF:FF:FF:FF:FF:FF
+        // matchTernary，后面的那个是掩码
+        // PiCriterion相当于P4 table里的entry/ONOS的selector ; 
+        // PiAction 相当于P4里的action , withId就是action的动作名，withParameter就是传递给action的参数。
+        // 在Utils.java里Actions是会被转化为treatment。
         final PiCriterion macBroadcastCriterion = PiCriterion.builder()
                 .matchTernary(
                         PiMatchFieldId.of("hdr.ethernet.dst_addr"),
@@ -371,6 +381,7 @@ public class L2BridgingComponent {
     // Events are processed only if isRelevant() returns true.
     //--------------------------------------------------------------------------
 
+    // 定义了本APP对新设备、新host的相关事件的动作反应
     /**
      * Listener of device events.
      */
@@ -393,7 +404,6 @@ public class L2BridgingComponent {
             }
             // Process only if this controller instance is the master.
                //这个的意思是只让master的控制器来处理。如果不是master的控制器，遇到了也不处理？
-               //返回deviceID
             final DeviceId deviceId = event.subject().id();
             return mastershipService.isLocalMaster(deviceId);
         }

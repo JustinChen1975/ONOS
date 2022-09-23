@@ -72,6 +72,10 @@ public class IntInsertCommand extends AbstractShellCommand {
 //    @Completion(Srv6SidCompleter.class)
 //    List<String> segments = null;
 
+// 看起来，IntConfig其实是IntCollector的相关配置，主要用来发现INT report所需要的。
+// 而IntIntent是INT的真正的遥测意图，包含INT的类型，INT的对什么流量感兴趣，要采集什么样的数据，同时也包含了intConfig(也就是指示要如何收集INT的metadata)
+// 而intObject则是包含了包含INT的类型，INT的对什么流量感兴趣，要采集什么样的数据
+
     @Override
     protected void doExecute() {
         intService = get(IntService.class);
@@ -93,6 +97,7 @@ public class IntInsertCommand extends AbstractShellCommand {
 
         TrafficSelector.Builder sBuilder = DefaultTrafficSelector.builder();
 //        sBuilder.
+// TODO:运行以后看这个selector最后转化的flowrule是什么样的？在P4交换机上table entry是什么样的。
         sBuilder.matchIPv6Src(Ip6Address.valueOf("2001:1:1::a").toIpPrefix())
                 .matchIPv6Dst(Ip6Address.valueOf("2001:6:1::f").toIpPrefix());
 //                .matchIPSrc(IpAddress.valueOf("210.34.0.1").toIpPrefix())

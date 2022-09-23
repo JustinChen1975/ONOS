@@ -27,7 +27,25 @@ import org.onosproject.net.config.Config;
  */
 public class FabricDeviceConfig extends Config<DeviceId> {
 
+    // 可以参考https://wiki.onosproject.org/display/ONOS/The+Network+Configuration+Service
+    // 对应了netcfg里的"fabricDeviceConfig" “
+	// 	    "device:leaf2": {
+	// 	      "basic": {
+	// 	        "managementAddress": "grpc://mininet:50002?device_id=1",
+	// 	        "driver": "stratum-bmv2",
+	// 	        "pipeconf": "org.onosproject.ngsdn-tutorial",
+	// 	        "locType": "grid",
+	// 	        "gridX": 800,
+	// 	        "gridY": 600
+	// 	      },
+	// 	      "fabricDeviceConfig": {
+	// 	        "myStationMac": "00:aa:00:00:00:02",
+	// 	        "mySid": "3:102:2::",
+	// 	        "isSpine": false
+	// 	      }
+    // },
     public static final String CONFIG_KEY = "fabricDeviceConfig";
+    
     private static final String MY_STATION_MAC = "myStationMac";
     private static final String MY_SID = "mySid";
     private static final String IS_SPINE = "isSpine";
